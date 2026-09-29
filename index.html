@@ -1,858 +1,198 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MV → Firebase Converter</title>
-<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
-<style>
-:root{--a:#ff4d8d;--t:#fff;--c:rgba(255,255,255,.1);--bg:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)}
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arin MV Studio</title><style>
+:root{--a:#ff4d8d;--b:#7c5cff}
 *{box-sizing:border-box}
-body{margin:0;padding:14px;font-family:'Trebuchet MS',Arial,sans-serif;
-background:var(--bg);background-attachment:fixed;color:var(--t);min-height:100vh}
-h1{font-size:20px;text-align:center;margin:6px 0 14px;color:var(--a)}
-.card{background:var(--c);border:1px solid rgba(255,255,255,.15);border-radius:14px;
-padding:14px;margin:10px auto;max-width:520px;backdrop-filter:blur(10px)}
-h3{margin:0 0 10px;font-size:14px;color:var(--a);text-transform:uppercase;letter-spacing:1px}
-label{display:block;font-size:12px;opacity:.85;margin:10px 0 3px}
-input,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
-background:rgba(255,255,255,.08);color:var(--t);font-size:14px;font-family:inherit;outline:none}
-input:focus,select:focus{border-color:var(--a);background:rgba(255,255,255,.14)}
-input[type=file]{padding:8px}
-button{background:linear-gradient(135deg,var(--a),#ff85b3);border:none;color:#fff;
-padding:12px 14px;margin:4px 2px;border-radius:10px;font-size:14px;font-weight:600;
-cursor:pointer;transition:transform .12s;box-shadow:0 3px 10px rgba(0,0,0,.25)}
-button:active{transform:scale(.94)}
-button:disabled{opacity:.5;cursor:not-allowed}
-.btn-row{display:flex;flex-wrap:wrap;gap:4px}
-.btn-row button{flex:1;min-width:120px}
-#previewWrap{text-align:center;margin:10px 0}
-#previewCanvas{background:#000;border:2px solid var(--a);border-radius:6px;
-width:256px;height:128px;image-rendering:pixelated}
-#log{background:rgba(0,0,0,.4);border-radius:8px;padding:10px;font-family:monospace;
-font-size:11px;max-height:180px;overflow-y:auto;color:#a8e6a8;margin-top:8px;
-white-space:pre-wrap;word-break:break-all}
-progress{width:100%;height:10px;border-radius:6px;overflow:hidden;background:rgba(0,0,0,.4);border:none;appearance:none;margin-top:10px}
-progress::-webkit-progress-bar{background:rgba(0,0,0,.3);border-radius:6px}
-progress::-webkit-progress-value{background:linear-gradient(90deg,var(--a),#ff85b3);border-radius:6px}
-.hint{font-size:11px;opacity:.6;margin:4px 0 8px}
-.row{display:flex;gap:8px}.row>div{flex:1}
-video{display:none}
-audio{width:100%;margin-top:8px}
-.stat{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-.stat span:last-child{color:var(--a);font-weight:600}
-.sync-box{background:rgba(0,0,0,.3);border:1px solid var(--a);border-radius:10px;padding:10px;margin:8px 0;font-size:12px}
-.sync-box b{color:var(--a)}
-.mv-item{background:rgba(0,0,0,.3);border-radius:10px;padding:10px;margin:8px 0;display:flex;gap:10px;align-items:center;transition:border-color .3s}
-.mv-item.active{border:2px solid var(--a);box-shadow:0 0 12px rgba(255,77,141,.4)}
-.mv-thumb{flex-shrink:0;width:80px;height:40px;background:#000;border-radius:6px;border:1px solid rgba(255,255,255,.2);image-rendering:pixelated}
-.mv-info{flex:1;min-width:0;text-align:left}
-.mv-info .nama{font-weight:600;font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mv-info .meta{font-size:11px;opacity:.75;margin:2px 0}
-.mv-info .badge{display:inline-block;background:var(--a);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.mv-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
-.mv-actions button{padding:6px 10px;font-size:11px;margin:0;min-width:60px}
-.realtime-bar{background:rgba(0,0,0,.4);border:1px solid var(--a);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:11px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.realtime-bar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
-.realtime-bar .dot.off{background:#b23b3b;animation:none}
-.realtime-bar .time{opacity:.7;font-family:monospace}
-.mode-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.mode-btns button{flex:1;min-width:100px;font-size:12px}
-.mode-btns button.on{outline:2px solid #fff;box-shadow:0 0 12px var(--a)}
-.range-row{display:flex;align-items:center;gap:8px;margin:6px 0}
-.range-row label{flex:0 0 90px;margin:0;font-size:12px}
-.range-row input[type=range]{flex:1;padding:0}
-.range-row .val{flex:0 0 45px;text-align:right;font-size:12px;color:var(--a);font-weight:600}
-.enhance-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
-</style>
-</head>
-<body>
+body{margin:0;padding:12px 12px 40px;font:14px system-ui,sans-serif;background:radial-gradient(circle at 20% 0,#2a1245,#0d0d1f 60%) fixed;color:#fff;min-height:100vh}
+h1{text-align:center;font-size:21px;margin:8px 0;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.c{max-width:540px;margin:10px auto;padding:14px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+h3{margin:0 0 8px;font-size:12px;color:var(--a);letter-spacing:1px;text-transform:uppercase}
+label{display:block;font-size:12px;opacity:.8;margin:8px 0 3px}
+input,select{width:100%;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:#fff;font-size:14px}
+button{padding:11px;border:0;border-radius:10px;color:#fff;font-weight:600;background:linear-gradient(135deg,var(--a),var(--b));margin:3px 0}
+button:active{transform:scale(.95)}button:disabled{opacity:.4}
+.r{display:flex;gap:6px;flex-wrap:wrap}.r>*{flex:1;min-width:90px}
+.sl{display:flex;align-items:center;gap:8px;margin:4px 0}.sl label{flex:0 0 70px;margin:0}.sl input{padding:0}.sl b{flex:0 0 36px;text-align:right;color:var(--a);font-size:12px}
+canvas{image-rendering:pixelated;background:#000;border:2px solid var(--a);border-radius:8px}
+#pv{width:100%;max-width:384px;aspect-ratio:2/1;display:block;margin:8px auto}
+#tl{width:100%;height:44px;image-rendering:auto;margin-top:6px}
+#log{background:rgba(0,0,0,.4);border-radius:8px;padding:8px;font:11px monospace;max-height:130px;overflow:auto;color:#a8e6a8;white-space:pre-wrap;margin-top:6px}
+progress{width:100%;height:8px}
+.mv{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.3);padding:8px;border-radius:10px;margin:6px 0}
+.mv.on{outline:2px solid var(--a)}.mv canvas{width:80px;height:40px;border:1px solid #444;flex:none}
+.mv div{flex:1;min-width:0;font-size:12px}.mv button{flex:none;padding:6px 10px;font-size:12px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#b23b3b;margin-right:6px}.dot.ok{background:#2ecc71}
+.sel{outline:2px solid #fff}
+.hint{font-size:11px;opacity:.7;margin-top:4px}
+#v{position:fixed;left:-9999px;width:64px}
+</style></head><body>
+<h1>💖 Arin MV Studio</h1>
 
-<h1>🎬 MV → Firebase Converter</h1>
+<div class="c"><h3>1 · Video</h3>
+<input type="file" id="vf" accept="video/*">
+<div id="vi" class="hint"></div>
+<canvas id="pv" width="128" height="64"></canvas>
+<div class="r"><button onclick="prev()">👁 Preview frame</button><button onclick="playAnim()">▶ Putar hasil</button></div>
+<video id="v" playsinline muted preload="auto"></video></div>
 
-<div class="card">
-<h3>1. Video</h3>
-<input type="file" id="videoFile" accept="video/*">
-<div id="videoInfo" style="font-size:12px;opacity:.8;margin-top:8px"></div>
-<div id="previewWrap">
-<canvas id="previewCanvas" width="128" height="64"></canvas>
-<div style="font-size:11px;opacity:.7;margin-top:6px">Preview 128×64 (hasil enhancement)</div>
-</div>
-<video id="videoEl" playsinline muted></video>
-</div>
+<div class="c"><h3>2 · Studio pintar</h3>
+<div class="r"><div><label>Mulai (detik)</label><input type="number" id="st" value="0" min="0" step="0.1"></div>
+<div><label>Durasi klip</label><input type="number" id="du" value="30" min="1"></div>
+<div><label>FPS (5–20)</label><input type="number" id="fps" value="12" min="5" max="20"></div></div>
+<button style="width:100%" onclick="analyze()" id="ba">🔍 Analisis &amp; pilih adegan terbaik</button>
+<canvas id="tl" width="300" height="44"></canvas>
+<div id="ai" class="hint">Tekan analisis: website memindai gerakan, detail, dan kontras seluruh video, lalu mengisi "Mulai" dengan adegan paling menarik.</div></div>
 
-<div class="card">
-<h3>2. Pengaturan Konversi</h3>
-<div class="row">
-<div><label>Mulai (detik)</label><input type="number" id="startTime" value="0" min="0" step="0.1"></div>
-<div><label>Durasi (detik)</label><input type="number" id="duration" value="30" min="0.5" step="0.5"></div>
-</div>
-<div class="row">
-<div><label>FPS (5–15)</label><input type="number" id="fps" value="10" min="5" max="15"></div>
-<div><label>Threshold</label><input type="number" id="threshold" value="128" min="0" max="255"></div>
-</div>
-<label>Metode</label>
-<select id="ditherMode">
-<option value="fs">Floyd-Steinberg (halus)</option>
-<option value="thresh">Threshold (cepat)</option>
-</select>
-<label>Invert Warna</label>
-<select id="invertMode">
-<option value="0">Normal (terang=putih)</option>
-<option value="1">Invert (gelap=putih)</option>
-</select>
-</div>
+<div class="c"><h3>3 · Enhancement</h3>
+<div class="r"><div><label>Crop</label><select id="cm"><option value="fill">Fill (zoom &amp; fokus)</option><option value="fit">Fit (letterbox)</option><option value="stretch">Stretch</option></select></div>
+<div><label>Metode titik</label><select id="dm"><option value="bayer">Bayer (stabil, disarankan)</option><option value="fs">Floyd-Steinberg</option><option value="th">Threshold</option></select></div></div>
+<div id="sls"></div>
+<div class="r"><div><label>Threshold</label><input type="number" id="th" value="128" min="0" max="255"></div>
+<div><label>Warna</label><select id="iv"><option value="0">Normal</option><option value="1">Invert</option></select></div></div>
+<div class="r" style="margin-top:8px"><label style="margin:0"><input type="checkbox" id="al" style="width:auto"> Auto-levels</label>
+<label style="margin:0"><input type="checkbox" id="fh" style="width:auto"> Mirror H</label>
+<label style="margin:0"><input type="checkbox" id="fv" style="width:auto"> Mirror V</label></div></div>
 
-<div class="card">
-<h3>3. Enhancement Visual</h3>
-<div class="hint">Perbaiki visual sebelum dikonversi ke OLED 128×64</div>
+<div class="c"><h3>4 · Konversi &amp; upload</h3>
+<div class="r"><div><label>Nama MV</label><input id="nm" value="mv1" maxlength="30"></div></div>
+<label>Firebase URL</label><input id="db" value="https://hadiah-esp32-default-rtdb.asia-southeast1.firebasedatabase.app">
+<div class="r"><button id="bc" onclick="conv()">🎞 Konversi</button><button id="bu" onclick="up()">☁ Upload</button></div>
+<progress id="pg" value="0" max="100"></progress>
+<div class="hint" id="stt">Frame: 0</div><div id="log"></div></div>
 
-<label>Mode Crop Video</label>
-<select id="cropMode">
-<option value="fit">Fit — letterbox, seluruh video muat</option>
-<option value="fill">Fill — crop tengah, penuh layar</option>
-<option value="stretch">Stretch — regangkan paksa</option>
-<option value="manual">Manual — pilih area sendiri</option>
-</select>
+<div class="c"><h3>5 · Kontrol perangkat</h3>
+<div><span class="dot" id="dot"></span><span id="ds">Menghubungkan...</span></div>
+<div class="r" id="ib" style="margin-top:8px"></div>
+<div class="sl"><label>Cahaya OLED</label><input type="range" id="oc" min="0" max="255" value="200" oninput="$('ocv').textContent=this.value" onchange="api('PATCH','/kontrol',{kecerahan:+this.value}).catch(er)"><b id="ocv">200</b></div>
+<input id="pi" maxlength="80" placeholder="Ketik pesan untuk OLED (tanpa emoji)...">
+<div class="r"><button onclick="kirim($('pi').value)">📨 Kirim</button><button onclick="kirim('')">🗑 Hapus</button></div>
+<div class="r"><button onclick="kirim('Aku sayang kamu')">Sayang</button><button onclick="kirim('Kangen kamu')">Kangen</button><button onclick="kirim('I love you')">I love you</button></div></div>
 
-<div id="manualCrop" style="display:none">
-<label>Manual Crop (persen dari video)</label>
-<div class="row">
-<div><label>X (%)</label><input type="number" id="cropX" value="0" min="0" max="100" step="1"></div>
-<div><label>Y (%)</label><input type="number" id="cropY" value="0" min="0" max="100" step="1"></div>
-</div>
-<div class="row">
-<div><label>Lebar (%)</label><input type="number" id="cropW" value="100" min="1" max="100" step="1"></div>
-<div><label>Tinggi (%)</label><input type="number" id="cropH" value="100" min="1" max="100" step="1"></div>
-</div>
-</div>
-
-<div class="range-row">
-<label>Brightness</label>
-<input type="range" id="brightness" min="-100" max="100" value="0">
-<span class="val" id="brightnessV">0</span>
-</div>
-<div class="range-row">
-<label>Contrast</label>
-<input type="range" id="contrast" min="-100" max="100" value="0">
-<span class="val" id="contrastV">0</span>
-</div>
-<div class="range-row">
-<label>Gamma</label>
-<input type="range" id="gamma" min="50" max="200" value="100">
-<span class="val" id="gammaV">1.0</span>
-</div>
-<div class="range-row">
-<label>Pre-Blur</label>
-<input type="range" id="blur" min="0" max="3" value="0">
-<span class="val" id="blurV">0</span>
-</div>
-
-<div class="enhance-grid">
-<label style="display:flex;align-items:center;gap:6px;font-size:12px">
-<input type="checkbox" id="flipH" style="width:auto;margin:0"> Mirror Horizontal
-</label>
-<label style="display:flex;align-items:center;gap:6px;font-size:12px">
-<input type="checkbox" id="flipV" style="width:auto;margin:0"> Mirror Vertikal
-</label>
-</div>
-
-<div class="hint">Tap <b>👁 Preview</b> untuk lihat hasilnya di canvas.</div>
-</div>
-
-<div class="card">
-<h3>4. Audio (opsional)</h3>
-<label>Ekstrak Audio?</label>
-<select id="audioMode">
-<option value="1">Ya, ekstrak dari video</option>
-<option value="0">Tidak</option>
-</select>
-<div class="row">
-<div><label>Format</label><select id="audioFormat"><option value="mp3">MP3</option><option value="wav">WAV</option></select></div>
-<div><label>Bitrate</label><select id="audioBitrate"><option value="64">64</option><option value="96">96</option><option value="128" selected>128</option><option value="192">192</option></select></div>
-</div>
-<label>Nama file SD card</label>
-<input type="text" id="audioFileName" value="0001" maxlength="4">
-<div id="audioPreviewWrap" style="display:none;margin-top:8px"><audio id="audioPreview" controls></audio></div>
-</div>
-
-<div class="card">
-<h3>5. Firebase</h3>
-<label>Nama MV</label>
-<input type="text" id="mvName" value="mv1" maxlength="30">
-<label>Firebase DB URL</label>
-<input type="text" id="dbUrl" value="https://hadiah-esp32-default-rtdb.asia-southeast1.firebasedatabase.app">
-</div>
-
-<div class="card">
-<h3>6. Jalankan</h3>
-<div class="btn-row">
-<button onclick="previewFrame()">👁 Preview</button>
-<button onclick="previewAudio()">🎧 Audio</button>
-</div>
-<div class="btn-row">
-<button onclick="startConvert()" id="btnConvert">🎞 Konversi</button>
-<button onclick="extractAudio()" id="btnAudio">🎵 Ekstrak Audio</button>
-</div>
-<div class="btn-row">
-<button onclick="uploadToFirebase()" id="btnUpload">☁ Upload</button>
-<button onclick="downloadAudio()">⬇ Audio</button>
-</div>
-<div class="btn-row">
-<button onclick="downloadJSON()">💾 JSON</button>
-<button onclick="clearLog()">🗑 Log</button>
-</div>
-<progress id="prog" value="0" max="100"></progress>
-<div id="log"></div>
-</div>
-
-<div class="card">
-<h3>7. Mode Tampilan ESP32</h3>
-<div class="hint">Idle & MV terpisah — tidak akan tabrakan</div>
-<div class="mode-btns">
-<button onclick="setIdle('idle0')" id="mi0">😴 Wajah</button>
-<button onclick="setIdle('idle1')" id="mi1">💤 Tidur</button>
-<button onclick="setIdle('idle2')" id="mi2">💕 Hati</button>
-<button onclick="setIdle('idle3')" id="mi3">🌸 Bunga</button>
-<button onclick="setIdle('menu')" id="mim">📋 Menu</button>
-<button onclick="setTampil('mv')" id="mmv">🎬 MV</button>
-</div>
-<div style="font-size:11px;opacity:.75;margin-top:8px">
-Status: <span id="modeInfo" style="color:var(--a)">-</span>
-</div>
-</div>
-
-<div class="card">
-<h3>8. Kirim Pesan ke OLED</h3>
-<input type="text" id="pesanInput" maxlength="80" placeholder="Ketik pesan...">
-<div class="btn-row" style="margin-top:8px">
-<button onclick="kirimPesan()">📨 Kirim</button>
-<button onclick="hapusPesan()">🗑 Hapus</button>
-</div>
-<div class="btn-row">
-<button onclick="quickPesan('Aku sayang kamu')">Sayang</button>
-<button onclick="quickPesan('Kangen kamu')">Kangen</button>
-<button onclick="quickPesan('I love you')">I love you</button>
-</div>
-<div style="font-size:12px;opacity:.75;margin-top:8px">
-Pesan aktif: <span id="pesanAktif" style="color:var(--a)">-</span>
-</div>
-</div>
-
-<div class="card">
-<h3>9. MV Tersimpan</h3>
-<div class="realtime-bar">
-<span><span class="dot" id="rtDot"></span><span id="rtStatus">Menghubungkan...</span></span>
-<span class="time" id="rtTime">-</span>
-</div>
-<div id="mvList"><div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div></div>
-<div class="btn-row" style="margin-top:8px">
-<button onclick="loadMvList(true)">🔄 Refresh</button>
-<button onclick="toggleRealtime()" id="btnRt">⏸ Pause</button>
-</div>
-</div>
-
-<div class="card">
-<h3>10. Status</h3>
-<div class="stat"><span>Video</span><span id="statVideo">-</span></div>
-<div class="stat"><span>Frame</span><span id="statFrames">0</span></div>
-<div class="stat"><span>Ukuran frame</span><span id="statSize">0 KB</span></div>
-<div class="stat"><span>Chunk</span><span id="statChunks">0</span></div>
-<div class="stat"><span>Audio</span><span id="statAudio">-</span></div>
-</div>
+<div class="c"><h3>6 · MV tersimpan</h3><div id="lib">Memuat...</div><button onclick="lib()" style="width:100%">🔄 Refresh</button></div>
 
 <script>
-var videoFile=null, videoEl=null, frames=[], audioBlob=null, audioExt='', audioDuration=0;
-var realtimeOn=true, chunkCache={}, lastAktif='', lastTampil='', lastIdle='';
+const $=i=>document.getElementById(i);
+const V=$('v');let frames=[],anim=null,ana=null;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function log(m){const e=$('log');e.textContent='['+new Date().toLocaleTimeString()+'] '+m+'\n'+e.textContent.slice(0,3000)}
+const er=e=>log('❌ '+(e.message||e));
+const DB=()=>$('db').value.replace(/\/+$/,'');
+async function api(m,p,b,q){const r=await fetch(DB()+p+'.json'+(q||''),{method:m,body:b===undefined?undefined:JSON.stringify(b)});if(!r.ok)throw new Error(m+' '+p+' HTTP '+r.status);return r.json()}
+async function retry(f){for(let i=0;i<3;i++){try{return await f()}catch(e){if(i==2)throw e;await sleep(800)}}}
 
-function $(i){return document.getElementById(i)}
-function log(m){var e=$('log');var t=new Date().toLocaleTimeString();
-e.innerHTML='['+t+'] '+m+'\n'+e.innerHTML;while(e.childNodes.length>100)e.removeChild(e.lastChild);}
-function clearLog(){$('log').innerHTML='';}
+const SL=[['zm','Zoom',100,300,100],['fx','Fokus X',0,100,50],['fy','Fokus Y',0,100,50],['br','Terang',-100,100,0],['co','Kontras',-100,100,0],['ga','Gamma',50,200,100],['sh','Tajam',0,3,0],['bl','Blur',0,2,0]];
+$('sls').innerHTML=SL.map(s=>`<div class="sl"><label>${s[1]}</label><input type="range" id="${s[0]}" min="${s[2]}" max="${s[3]}" value="${s[4]}" oninput="$('${s[0]}v').textContent=this.value"><b id="${s[0]}v">${s[4]}</b></div>`).join('');
+const IDL=[['idle0','😊 Wajah'],['idle1','😴 Tidur'],['idle2','💕 Hati'],['idle3','🌙 Bintang'],['idle4','🕒 Jam']];
+$('ib').innerHTML=IDL.map(i=>`<button id="i_${i[0]}" onclick="setIdle('${i[0]}')">${i[1]}</button>`).join('');
 
-['brightness','contrast','gamma','blur'].forEach(function(id){
-  $(id).addEventListener('input',function(){
-    var v=parseInt(this.value);
-    if(id==='gamma')$('gammaV').textContent=(v/100).toFixed(1);
-    else $(id+'V').textContent=v;
-  });
-});
-$('cropMode').addEventListener('change',function(){
-  $('manualCrop').style.display=(this.value==='manual')?'block':'none';
-});
+$('vf').onchange=e=>{const f=e.target.files[0];if(!f)return;V.src=URL.createObjectURL(f);V.onloadedmetadata=()=>{$('vi').textContent='📹 '+V.videoWidth+'×'+V.videoHeight+' · '+V.duration.toFixed(1)+'s';$('du').value=Math.min(30,Math.floor(V.duration));ana=null;log('Video dimuat')}};
 
-function updateStats(){
-  $('statFrames').textContent=frames.length;
-  var tb=frames.length*1024;
-  $('statSize').textContent=tb>1048576?(tb/1048576).toFixed(2)+' MB':(tb/1024).toFixed(1)+' KB';
-  $('statChunks').textContent=Math.ceil(frames.length/30);
-  $('statAudio').textContent=audioBlob?(audioExt.toUpperCase()+' '+(audioBlob.size/1024).toFixed(0)+' KB'):'-';
-}
+function seek(t){return new Promise((res,rej)=>{t=Math.max(0,Math.min(t,V.duration-.05));if(Math.abs(V.currentTime-t)<.001){res();return}
+const to=setTimeout(()=>{V.onseeked=null;rej(new Error('seek timeout'))},8000);
+V.onseeked=()=>{clearTimeout(to);V.onseeked=null;setTimeout(res,15)};V.currentTime=t})}
 
-$('videoFile').addEventListener('change',function(e){
-  videoFile=e.target.files[0];
-  if(!videoFile){log('Tidak ada file');return;}
-  videoEl=$('videoEl');
-  videoEl.src=URL.createObjectURL(videoFile);
-  videoEl.onloadedmetadata=function(){
-    var vw=videoEl.videoWidth,vh=videoEl.videoHeight,dur=videoEl.duration;
-    $('videoInfo').textContent='📹 '+vw+'×'+vh+' | '+dur.toFixed(2)+'s | '+(videoFile.size/1048576).toFixed(2)+' MB';
-    $('statVideo').textContent=dur.toFixed(1)+'s';
-    log('Video: '+vw+'x'+vh+', '+dur.toFixed(2)+'s');
-    if(dur<60)$('duration').value=Math.min(30,Math.floor(dur));
-    else $('duration').value=60;
-  };
-});
+function grab(W,H){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d',{willReadFrequently:true});
+x.fillStyle='#000';x.fillRect(0,0,W,H);const vw=V.videoWidth,vh=V.videoHeight,m=$('cm').value;
+if(m==='fit'){const s=Math.min(W/vw,H/vh);x.drawImage(V,0,0,vw,vh,(W-vw*s)/2,(H-vh*s)/2,vw*s,vh*s)}
+else if(m==='stretch')x.drawImage(V,0,0,W,H);
+else{const z=$('zm').value/100,ar=W/H;let sw,sh;if(vw/vh>ar){sh=vh/z;sw=sh*ar}else{sw=vw/z;sh=sw/ar}
+x.drawImage(V,($('fx').value/100)*(vw-sw),($('fy').value/100)*(vh-sh),sw,sh,0,0,W,H)}
+return x.getImageData(0,0,W,H)}
 
-// ============ FRAME PROCESSING PIPELINE ============
-function computeCropRect(){
-  var vw=videoEl.videoWidth, vh=videoEl.videoHeight;
-  var targetRatio=128/64; // 2:1
-  var mode=$('cropMode').value;
-  var sx=0,sy=0,sw=vw,sh=vh;
-  if(mode==='fill'){
-    var srcRatio=vw/vh;
-    if(srcRatio>targetRatio){sw=vh*targetRatio;sx=(vw-sw)/2;}
-    else{sh=vw/targetRatio;sy=(vh-sh)/2;}
-  } else if(mode==='stretch'){
-    // use entire, distort
-  } else if(mode==='manual'){
-    var cx=parseInt($('cropX').value)/100;
-    var cy=parseInt($('cropY').value)/100;
-    var cw=parseInt($('cropW').value)/100;
-    var ch=parseInt($('cropH').value)/100;
-    sx=vw*cx; sy=vh*cy; sw=vw*cw; sh=vh*ch;
-  }
-  // 'fit' → use full, letterbox via canvas clear
-  return {sx:sx,sy:sy,sw:sw,sh:sh,useLetterbox:(mode==='fit')};
-}
+function blur(g,r){const W=128,H=64,t=new Float32Array(g.length),o=new Float32Array(g.length);
+for(let y=0;y<H;y++)for(let x=0;x<W;x++){let s=0,n=0;for(let k=-r;k<=r;k++){const xx=x+k;if(xx<0||xx>=W)continue;s+=g[y*W+xx];n++}t[y*W+x]=s/n}
+for(let x=0;x<W;x++)for(let y=0;y<H;y++){let s=0,n=0;for(let k=-r;k<=r;k++){const yy=y+k;if(yy<0||yy>=H)continue;s+=t[yy*W+x];n++}o[y*W+x]=s/n}
+return o}
+const BY=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
 
-function extractFrameProcessed(time){
-  return new Promise(function(resolve,reject){
-    var v=videoEl;var done=false;
-    var to=setTimeout(function(){if(!done){done=true;reject('timeout');}},6000);
-    v.onseeked=function(){
-      if(done)return;done=true;clearTimeout(to);
-      var tmp=document.createElement('canvas');
-      tmp.width=128;tmp.height=64;
-      var ctx=tmp.getContext('2d',{willReadFrequently:true});
-      ctx.fillStyle='#000';ctx.fillRect(0,0,128,64);
-      var crop=computeCropRect();
-      var dx=0,dy=0,dw=128,dh=64;
-      if(crop.useLetterbox){
-        // Fit: compute scale to fit inside 128x64
-        var vw=videoEl.videoWidth,vh=videoEl.videoHeight;
-        var sc=Math.min(128/vw, 64/vh);
-        dw=vw*sc; dh=vh*sc;
-        dx=(128-dw)/2; dy=(64-dh)/2;
-        ctx.drawImage(v,0,0,vw,vh,dx,dy,dw,dh);
-      } else {
-        ctx.drawImage(v,crop.sx,crop.sy,crop.sw,crop.sh,0,0,128,64);
-      }
-      resolve(ctx.getImageData(0,0,128,64));
-    };
-    v.currentTime=Math.max(0,Math.min(time,v.duration-0.05));
-  });
-}
+function process(img){const d=img.data,n=8192;let g=new Float32Array(n),i,x,y;
+for(i=0;i<n;i++)g[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
+if($('fh').checked||$('fv').checked){const c=Float32Array.from(g),h=$('fh').checked,v=$('fv').checked;
+for(y=0;y<64;y++)for(x=0;x<128;x++)g[y*128+x]=c[(v?63-y:y)*128+(h?127-x:x)]}
+let lo=0,hi=255;if($('al').checked&&ana){lo=ana.lo;hi=ana.hi}
+const br=+$('br').value,co=+$('co').value,cf=(259*(co+255))/(255*(259-co)),ga=$('ga').value/100;
+for(i=0;i<n;i++){let v=(g[i]-lo)*255/Math.max(1,hi-lo);v=cf*(v+br-128)+128;v=v<0?0:v>255?255:v;g[i]=255*Math.pow(v/255,1/ga)}
+const bl=+$('bl').value;if(bl>0)g=blur(g,bl);
+const sh=+$('sh').value;if(sh>0){const b2=blur(g,1);for(i=0;i<n;i++){const s=g[i]+sh*.6*(g[i]-b2[i]);g[i]=s<0?0:s>255?255:s}}
+const thr=+$('th').value,md=$('dm').value,o=new Uint8Array(n);
+if(md==='fs'){const e=Float32Array.from(g);for(y=0;y<64;y++)for(x=0;x<128;x++){i=y*128+x;const old=e[i],on=old>=thr?1:0,er2=old-(on?255:0);o[i]=on;
+if(x<127)e[i+1]+=er2*7/16;if(y<63){if(x>0)e[i+127]+=er2*3/16;e[i+128]+=er2*5/16;if(x<127)e[i+129]+=er2/16}}}
+else if(md==='bayer'){for(y=0;y<64;y++)for(x=0;x<128;x++){i=y*128+x;o[i]=g[i]>=BY[(y&3)*4+(x&3)]*16+8+(thr-128)?1:0}}
+else for(i=0;i<n;i++)o[i]=g[i]>=thr?1:0;
+if($('iv').value==='1')for(i=0;i<n;i++)o[i]^=1;
+return o}
+const frameAt=async t=>{await seek(t);return process(grab(128,64))};
+function draw(bin,cv){const x=cv.getContext('2d'),im=x.createImageData(128,64);for(let i=0;i<8192;i++){const v=bin[i]?255:0;im.data[i*4]=im.data[i*4+1]=im.data[i*4+2]=v;im.data[i*4+3]=255}x.putImageData(im,0,0)}
+function pack(bin){const b=new Uint8Array(1024);for(let p=0;p<8;p++)for(let x=0;x<128;x++){let by=0;for(let k=0;k<8;k++)if(bin[(p*8+k)*128+x])by|=1<<k;b[p*128+x]=by}return b}
+function b64(a){let s='';for(let i=0;i<a.length;i+=8192)s+=String.fromCharCode.apply(null,a.subarray(i,i+8192));return btoa(s)}
+function drawPacked(a,cv){const x=cv.getContext('2d'),im=x.createImageData(128,64);for(let p=0;p<8;p++)for(let c=0;c<128;c++){const b=a[p*128+c];for(let k=0;k<8;k++){const i=((p*8+k)*128+c)*4,v=(b>>k)&1?255:0;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}}x.putImageData(im,0,0)}
 
-function toGray(img){
-  var d=img.data,g=new Float32Array(128*64);
-  for(var i=0;i<128*64;i++)g[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];
-  return g;
-}
+async function prev(){if(!V.duration)return log('Pilih video dulu');clearInterval(anim);try{draw(await frameAt(+$('st').value),$('pv'))}catch(e){er(e)}}
+function playAnim(){clearInterval(anim);if(!frames.length)return log('Konversi dulu');let i=0;anim=setInterval(()=>{draw(frames[i],$('pv'));i=(i+1)%frames.length},1000/+$('fps').value)}
 
-function applyEnhance(g){
-  var b=parseInt($('brightness').value);
-  var c=parseInt($('contrast').value);
-  var gam=parseInt($('gamma').value)/100;
-  var cFactor=(259*(c+255))/(255*(259-c));
-  for(var i=0;i<g.length;i++){
-    var v=g[i]+b;
-    v=cFactor*(v-128)+128;
-    if(v<0)v=0; if(v>255)v=255;
-    if(gam!==1.0){
-      var n=v/255;
-      n=Math.pow(n,1.0/gam);
-      v=n*255;
-    }
-    g[i]=v;
-  }
-  return g;
-}
+async function analyze(){if(!V.duration)return log('Pilih video dulu');
+const D=V.duration,step=Math.max(.5,D/300),N=Math.floor(D/step),W=64,H=32,S=[],hist=new Float64Array(256);let prevG=null;
+$('ba').disabled=true;$('ai').textContent='Menganalisis '+N+' titik...';
+for(let i=0;i<N;i++){try{await seek(i*step)}catch(e){}
+const d=grab(W,H).data,g=new Float32Array(W*H);let m=0;
+for(let k=0;k<g.length;k++){g[k]=.299*d[k*4]+.587*d[k*4+1]+.114*d[k*4+2];m+=g[k];hist[Math.min(255,g[k]|0)]++}
+m/=g.length;let sd=0,ed=0,mo=0;
+for(let k=0;k<g.length;k++){sd+=(g[k]-m)**2;if(k%W)ed+=Math.abs(g[k]-g[k-1]);if(prevG)mo+=Math.abs(g[k]-prevG[k])}
+S.push({m,c:Math.sqrt(sd/g.length),e:ed/g.length,mo:mo/g.length});prevG=g;
+if(i%10==0){$('pg').value=i/N*100;await sleep(0)}}
+const mx=k=>Math.max(1e-6,...S.map(s=>s[k])),mC=mx('c'),mE=mx('e'),mM=mx('mo');
+let sc=S.map(s=>{let v=s.c/mC*.25+s.e/mE*.35+s.mo/mM*.4;if(s.m<20||s.m>240)v*=.3;return v});
+const top=Math.max(1e-6,...sc);sc=sc.map(v=>v/top);
+const du=+$('du').value,L=Math.min(N,Math.max(1,Math.round(du/step)));let best=0,bs=-1,cur=0;
+for(let i=0;i<N;i++){cur+=sc[i];if(i>=L)cur-=sc[i-L];if(i>=L-1&&cur>bs){bs=cur;best=i-L+1}}
+let tot=0;for(let i=0;i<256;i++)tot+=hist[i];let lo=0,hi=255,cu=0;
+for(let i=0;i<256;i++){cu+=hist[i];if(cu>=tot*.02){lo=i;break}}cu=0;
+for(let i=0;i<256;i++){cu+=hist[i];if(cu>=tot*.98){hi=i;break}}
+ana={sc,best,L,lo,hi};let s0=best*step;if(s0+du>D)s0=Math.max(0,D-du);
+$('st').value=s0.toFixed(1);$('al').checked=hi-lo>20&&hi-lo<235;
+drawTL();$('pg').value=0;$('ba').disabled=false;
+$('ai').textContent='✅ Adegan terbaik mulai detik '+s0.toFixed(1)+' · auto-levels '+lo+'–'+hi+' (pink = klip terpilih)';prev()}
+function drawTL(){const c=$('tl'),x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);if(!ana)return;
+const n=ana.sc.length;x.fillStyle='rgba(255,77,141,.28)';x.fillRect(ana.best/n*W,0,ana.L/n*W,H);
+x.fillStyle='#ff4d8d';for(let i=0;i<n;i++)x.fillRect(i/n*W,H-ana.sc[i]*H,Math.max(1,W/n-.5),ana.sc[i]*H)}
 
-function boxBlur(g,w,h,r){
-  if(r<1)return g;
-  var tmp=new Float32Array(g.length);
-  var out=new Float32Array(g.length);
-  var size=r*2+1;
-  // horizontal
-  for(var y=0;y<h;y++){
-    for(var x=0;x<w;x++){
-      var sum=0,cnt=0;
-      for(var k=-r;k<=r;k++){
-        var xx=x+k;if(xx<0||xx>=w)continue;
-        sum+=g[y*w+xx];cnt++;
-      }
-      tmp[y*w+x]=sum/cnt;
-    }
-  }
-  // vertical
-  for(var x=0;x<w;x++){
-    for(var y=0;y<h;y++){
-      var sum=0,cnt=0;
-      for(var k=-r;k<=r;k++){
-        var yy=y+k;if(yy<0||yy>=h)continue;
-        sum+=tmp[yy*w+x];cnt++;
-      }
-      out[y*w+x]=sum/cnt;
-    }
-  }
-  return out;
-}
+async function conv(){if(!V.duration)return log('Pilih video dulu');
+const st=+$('st').value,du=+$('du').value,fp=+$('fps').value,n=Math.min(Math.floor(du*fp),3600);
+if(n<1)return log('Frame 0');clearInterval(anim);$('bc').disabled=$('bu').disabled=true;frames=[];const t0=Date.now();log('Konversi '+n+' frame @ '+fp+' fps');
+for(let i=0;i<n;i++){const t=st+i/fp;if(t>=V.duration)break;
+try{frames.push(await frameAt(t))}catch(e){frames.push(frames.length?frames[frames.length-1]:new Uint8Array(8192))}
+if(i%4==0||i==n-1){$('pg').value=(i+1)/n*100;await sleep(0)}
+if(i%40==0)log('Frame '+(i+1)+'/'+n)}
+$('stt').textContent='Frame: '+frames.length+' · ~'+(frames.length/1024).toFixed(1)+' MB · '+Math.ceil(frames.length/30)+' chunk';
+log('✅ Selesai '+((Date.now()-t0)/1000).toFixed(0)+'s');$('bc').disabled=$('bu').disabled=false;playAnim()}
 
-function flipImage(img,h,v){
-  var d=img.data;
-  var w=128,ht=64;
-  var copy=new Uint8ClampedArray(d);
-  for(var y=0;y<ht;y++){
-    for(var x=0;x<w;x++){
-      var srcX=h?(w-1-x):x;
-      var srcY=v?(ht-1-y):y;
-      var si=(srcY*w+srcX)*4;
-      var di=(y*w+x)*4;
-      d[di]=copy[si];d[di+1]=copy[si+1];d[di+2]=copy[si+2];d[di+3]=255;
-    }
-  }
-  return img;
-}
+async function up(){if(!frames.length)return log('Konversi dulu');
+const nm=$('nm').value.trim().replace(/[^\w-]/g,'_')||'mv1',fp=+$('fps').value,cs=30,tc=Math.ceil(frames.length/cs);
+$('bu').disabled=true;
+try{const B=frames.map(f=>b64(pack(f)));
+await api('DELETE','/mv/'+nm);
+for(let c=0;c<tc;c++){await retry(()=>api('PUT','/mv/'+nm+'/chunk'+String(c).padStart(3,'0'),B.slice(c*cs,(c+1)*cs).join('|')));$('pg').value=(c+1)/tc*100;log('Chunk '+(c+1)+'/'+tc)}
+await api('PUT','/mv/'+nm+'/thumb',B[Math.min(2,B.length-1)]);
+await api('PUT','/mv/'+nm+'/info',{nama:nm,fps:fp,totalFrame:frames.length,totalChunk:tc,chunkSize:cs,lebar:128,tinggi:64,durasiFrameMs:Math.round(1000/fp),dibuat:Date.now(),audioFile:'',audioExt:'',audioDuration:0});
+log('✅ Upload selesai: '+nm);lib()}catch(e){er(e)}$('bu').disabled=false}
 
-function threshold(g,thr,inv){
-  var o=new Array(128*64);
-  for(var i=0;i<g.length;i++){var on=g[i]>=thr;if(inv)on=!on;o[i]=on;}
-  return o;
-}
+let K={},S2={};
+const setIdle=m=>api('PATCH','/kontrol',{tampil:'idle',idle:m}).then(()=>{K.tampil='idle';K.idle=m;ui();log('Idle: '+m)}).catch(er);
+const play=n=>api('PATCH','/kontrol',{tampil:'mv',aktif:n}).then(()=>{K.tampil='mv';K.aktif=n;ui();log('▶ '+n)}).catch(er);
+const kirim=t=>{t=t.trim();api('PATCH','/kontrol',{pesan:t||null}).then(()=>log(t?'📨 '+t:'Pesan dihapus')).catch(er)};
+async function del(n){if(!confirm('Hapus '+n+'?'))return;try{await api('DELETE','/mv/'+n);log('🗑 '+n);lib()}catch(e){er(e)}}
 
-function floydSteinberg(g,thr,inv){
-  var w=128,h=64,buf=Float32Array.from(g),o=new Array(w*h);
-  for(var y=0;y<h;y++)for(var x=0;x<w;x++){
-    var i=y*w+x,old=buf[i],on=old>=thr,newVal=on?255:0;
-    if(inv)on=!on;o[i]=on;
-    var err=old-newVal;
-    if(x+1<w)buf[i+1]+=err*7/16;
-    if(y+1<h){if(x>0)buf[i+w-1]+=err*3/16;buf[i+w]+=err*5/16;if(x+1<w)buf[i+w+1]+=err*1/16;}
-  }
-  return o;
-}
+async function lib(){const el=$('lib');
+try{const ks=Object.keys(await api('GET','/mv',undefined,'?shallow=true')||{}).filter(k=>/^[\w-]+$/.test(k));
+if(!ks.length){el.textContent='Belum ada MV.';return}
+const D=await Promise.all(ks.map(async k=>{const[i,t]=await Promise.all([api('GET','/mv/'+k+'/info').catch(()=>null),api('GET','/mv/'+k+'/thumb').catch(()=>null)]);return{k,i:i||{},t}}));
+el.innerHTML=D.map(o=>{const tf=o.i.totalFrame||0,fp=o.i.fps||10;return`<div class="mv" data-n="${o.k}"><canvas width="128" height="64" id="t_${o.k}"></canvas><div><b>${o.k}</b><br>${tf} frame · ${fp} fps · ${(tf/fp).toFixed(1)}s</div><button onclick="play('${o.k}')">▶</button><button onclick="del('${o.k}')" style="background:#b23b3b">🗑</button></div>`}).join('');
+D.forEach(o=>{if(typeof o.t!=='string')return;try{const b=atob(o.t),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);if(a.length===1024)drawPacked(a,$('t_'+o.k))}catch(e){}});ui()}
+catch(e){el.textContent='Error: '+e.message}}
 
-function packSSD(bin){
-  var b=new Uint8Array(1024);
-  for(var p=0;p<8;p++)for(var x=0;x<128;x++){
-    var by=0;
-    for(var bit=0;bit<8;bit++){var y=p*8+bit;if(bin[y*128+x])by|=(1<<bit);}
-    b[p*128+x]=by;
-  }
-  return b;
-}
-
-function b64e(bytes){
-  var bin='',ch=8192;
-  for(var i=0;i<bytes.length;i+=ch)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+ch));
-  return btoa(bin);
-}
-
-function renderBin(bin){
-  var c=$('previewCanvas'),ctx=c.getContext('2d');
-  var img=ctx.createImageData(128,64);
-  for(var i=0;i<128*64;i++){var v=bin[i]?255:0;
-  img.data[i*4]=v;img.data[i*4+1]=v;img.data[i*4+2]=v;img.data[i*4+3]=255;}
-  ctx.putImageData(img,0,0);
-}
-
-async function previewFrame(){
-  if(!videoEl||!videoEl.duration){log('Belum ada video');return;}
-  var t=parseFloat($('startTime').value);
-  var thr=parseInt($('threshold').value);
-  var mode=$('ditherMode').value;
-  var inv=$('invertMode').value==='1';
-  log('Preview...');
-  try{
-    var img=await extractFrameProcessed(t);
-    if($('flipH').checked||$('flipV').checked)img=flipImage(img,$('flipH').checked,$('flipV').checked);
-    var g=toGray(img);
-    g=applyEnhance(g);
-    var blur=parseInt($('blur').value);
-    if(blur>0)g=boxBlur(g,128,64,blur);
-    var bin=mode==='fs'?floydSteinberg(g,thr,inv):threshold(g,thr,inv);
-    renderBin(bin);
-    log('Preview OK');
-  }catch(e){log('Error: '+e);}
-}
-
-async function startConvert(){
-  if(!videoEl||!videoEl.duration){log('Belum ada video');return;}
-  var start=parseFloat($('startTime').value);
-  var dur=parseFloat($('duration').value);
-  var fps=parseInt($('fps').value);
-  var thr=parseInt($('threshold').value);
-  var mode=$('ditherMode').value;
-  var inv=$('invertMode').value==='1';
-  var blur=parseInt($('blur').value);
-  var flipH=$('flipH').checked, flipV=$('flipV').checked;
-
-  var total=Math.floor(dur*fps);
-  if(total<1){log('Total frame 0');return;}
-  if(total>3000){log('⚠ '+total+' frame');}
-
-  $('btnConvert').disabled=true;$('btnUpload').disabled=true;
-  frames=[];
-  log('Konversi '+total+' frame @ '+fps+' fps...');
-  var t0=Date.now();
-
-  for(var i=0;i<total;i++){
-    var t=start+i/fps;
-    if(t>videoEl.duration){log('Video habis');break;}
-    try{
-      var img=await extractFrameProcessed(t);
-      if(flipH||flipV)img=flipImage(img,flipH,flipV);
-      var g=toGray(img);
-      g=applyEnhance(g);
-      if(blur>0)g=boxBlur(g,128,64,blur);
-      var bin=mode==='fs'?floydSteinberg(g,thr,inv):threshold(g,thr,inv);
-      frames.push(b64e(packSSD(bin)));
-    }catch(e){frames.push(frames[frames.length-1]||'');}
-    if(i%5===0||i===total-1){
-      $('prog').value=((i+1)/total)*100;
-      var el=(Date.now()-t0)/1000,eta=el/(i+1)*(total-i-1);
-      log('Frame '+(i+1)+'/'+total+' | '+el.toFixed(0)+'s | sisa ~'+eta.toFixed(0)+'s');
-      await new Promise(function(r){setTimeout(r,0);});
-    }
-    if(frames.length>3000)break;
-  }
-  updateStats();
-  log('✅ Selesai: '+frames.length+' frame dalam '+((Date.now()-t0)/1000).toFixed(1)+'s');
-  $('btnConvert').disabled=false;$('btnUpload').disabled=false;
-}
-
-async function extractAudio(){
-  if(!videoFile){log('Pilih video dulu');return;}
-  if($('audioMode').value!=='1'){log('Audio off');return;}
-  $('btnAudio').disabled=true;
-  log('🎵 Decode audio...');
-  try{
-    var ab=await videoFile.arrayBuffer();
-    var ac=new (window.AudioContext||window.webkitAudioContext)();
-    var dec=await ac.decodeAudioData(ab.slice(0));
-    log('OK: '+dec.sampleRate+'Hz');
-    var start=parseFloat($('startTime').value);
-    var dur=parseFloat($('duration').value);
-    var end=Math.min(start+dur,dec.duration);
-    var sr=dec.sampleRate;
-    var ss=Math.floor(start*sr),es=Math.floor(end*sr),len=es-ss;
-    if(len<=0){log('Durasi 0');$('btnAudio').disabled=false;return;}
-    var mono=new Float32Array(len);
-    var ch0=dec.getChannelData(0);
-    for(var i=0;i<len;i++)mono[i]=ch0[ss+i];
-    var fmt=$('audioFormat').value;
-    if(fmt==='wav'){audioBlob=new Blob([encodeWAV(mono,sr)],{type:'audio/wav'});audioExt='wav';}
-    else{var br=parseInt($('audioBitrate').value);
-      var mp3=await encodeMP3(mono,sr,br);
-      audioBlob=new Blob([mp3],{type:'audio/mpeg'});audioExt='mp3';}
-    audioDuration=len/sr;
-    $('audioPreview').src=URL.createObjectURL(audioBlob);
-    $('audioPreviewWrap').style.display='block';
-    updateStats();
-    log('✅ Audio: '+audioExt.toUpperCase()+' '+(audioBlob.size/1024).toFixed(0)+' KB');
-  }catch(e){log('❌ '+e.message);}
-  $('btnAudio').disabled=false;
-}
-
-function encodeWAV(s,sr){
-  var b=new ArrayBuffer(44+s.length*2),v=new DataView(b);
-  function w(o,st){for(var i=0;i<st.length;i++)v.setUint8(o+i,st.charCodeAt(i));}
-  w(0,'RIFF');v.setUint32(4,36+s.length*2,true);w(8,'WAVE');
-  w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
-  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
-  w(36,'data');v.setUint32(40,s.length*2,true);
-  var o=44;
-  for(var i=0;i<s.length;i++){var x=Math.max(-1,Math.min(1,s[i]));v.setInt16(o,x<0?x*0x8000:x*0x7FFF,true);o+=2;}
-  return b;
-}
-
-function encodeMP3(s,sr,kbps){
-  return new Promise(function(res,rej){
-    try{
-      if(typeof lamejs==='undefined'){rej(new Error('lamejs belum'));return;}
-      var pcm=new Int16Array(s.length);
-      for(var i=0;i<s.length;i++){var x=Math.max(-1,Math.min(1,s[i]));pcm[i]=x<0?x*0x8000:x*0x7FFF;}
-      var enc=new lamejs.Mp3Encoder(1,sr,kbps);
-      var bs=1152,chunks=[];
-      for(var i=0;i<pcm.length;i+=bs){
-        var sl=pcm.subarray(i,i+bs);
-        var buf=enc.encodeBuffer(sl);
-        if(buf.length>0)chunks.push(new Uint8Array(buf));
-      }
-      var end=enc.flush();
-      if(end.length>0)chunks.push(new Uint8Array(end));
-      var tot=0;for(var j=0;j<chunks.length;j++)tot+=chunks[j].length;
-      var out=new Uint8Array(tot),off=0;
-      for(var k=0;k<chunks.length;k++){out.set(chunks[k],off);off+=chunks[k].length;}
-      res(out.buffer);
-    }catch(e){rej(e);}
-  });
-}
-
-function previewAudio(){if(!audioBlob){log('Belum ada audio');return;}
-$('audioPreview').play();log('▶ Preview');}
-
-function downloadAudio(){
-  if(!audioBlob){log('Belum ada audio');return;}
-  var n=$('audioFileName').value.trim()||'0001';
-  var url=URL.createObjectURL(audioBlob);
-  var a=document.createElement('a');a.href=url;a.download=n+'.'+audioExt;a.click();
-  URL.revokeObjectURL(url);log('💾 '+n+'.'+audioExt);
-}
-
-async function uploadToFirebase(){
-  if(!frames.length){log('Belum ada frame');return;}
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  var name=$('mvName').value.trim().replace(/\s+/g,'_');
-  var fps=parseInt($('fps').value);
-  var cs=30,tc=Math.ceil(frames.length/cs);
-  var af=$('audioFileName').value.trim()||'0001';
-  $('btnUpload').disabled=true;
-  try{
-    var info={nama:name,fps:fps,totalFrame:frames.length,totalChunk:tc,chunkSize:cs,
-      lebar:128,tinggi:64,dibuat:Date.now(),audioFile:af,audioExt:audioBlob?audioExt:'',
-      audioDuration:audioDuration||0,frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
-      durasiFrameMs:Math.round(1000/fps)};
-    var r=await fetch(db+'/mv/'+name+'/info.json',{method:'PUT',body:JSON.stringify(info)});
-    if(!r.ok)throw new Error('info HTTP '+r.status);
-    log('✓ Info');
-    for(var c=0;c<tc;c++){
-      var sl=frames.slice(c*cs,(c+1)*cs);
-      var cn='chunk'+String(c).padStart(3,'0');
-      r=await fetch(db+'/mv/'+name+'/'+cn+'.json',{method:'PUT',body:JSON.stringify(sl.join('|'))});
-      if(!r.ok)throw new Error(cn+' HTTP '+r.status);
-      $('prog').value=((c+1)/tc)*100;
-      if(c%5===0||c===tc-1)log('Chunk '+(c+1)+'/'+tc);
-    }
-    log('✅ Upload: '+name);
-    loadMvList(true);
-  }catch(e){log('❌ '+e.message);}
-  $('btnUpload').disabled=false;
-}
-
-function downloadJSON(){
-  if(!frames.length){log('Belum ada frame');return;}
-  var name=$('mvName').value.trim().replace(/\s+/g,'_');
-  var fps=parseInt($('fps').value),cs=30,tc=Math.ceil(frames.length/cs);
-  var af=$('audioFileName').value.trim()||'0001';
-  var o={info:{nama:name,fps:fps,totalFrame:frames.length,totalChunk:tc,chunkSize:cs,
-    lebar:128,tinggi:64,dibuat:Date.now(),audioFile:af,audioExt:audioBlob?audioExt:'',
-    audioDuration:audioDuration||0,frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
-    durasiFrameMs:Math.round(1000/fps)}};
-  for(var c=0;c<tc;c++)o['chunk'+String(c).padStart(3,'0')]=frames.slice(c*cs,(c+1)*cs).join('|');
-  var blob=new Blob([JSON.stringify(o)],{type:'application/json'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download=name+'.json';a.click();
-  URL.revokeObjectURL(url);log('💾 JSON');
-}
-
-// ============ MODE & PESAN ============
-async function setIdle(mode){
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    await fetch(db+'/kontrol/idle.json',{method:'PUT',body:JSON.stringify(mode)});
-    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify('idle')});
-    log('✨ Idle: '+mode);
-    lastTampil='idle';lastIdle=mode;updateModeBtns();
-  }catch(e){log('❌ '+e.message);}
-}
-
-async function setTampil(mode){
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    if(mode==='mv' && lastAktif.length===0){
-      log('Pilih MV dulu (tap ▶ di daftar MV)');
-      return;
-    }
-    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify(mode)});
-    log('🎬 Mode: '+mode);
-    lastTampil=mode;updateModeBtns();
-  }catch(e){log('❌ '+e.message);}
-}
-
-function updateModeBtns(){
-  ['mi0','mi1','mi2','mi3','mim','mmv'].forEach(function(id){$(id).classList.remove('on');});
-  if(lastTampil==='mv'){$('mmv').classList.add('on');}
-  else if(lastTampil==='idle'){
-    var map={'idle0':'mi0','idle1':'mi1','idle2':'mi2','idle3':'mi3','menu':'mim'};
-    if(map[lastIdle])$(map[lastIdle]).classList.add('on');
-  }
-  $('modeInfo').textContent=(lastTampil==='mv'?'MV: '+lastAktif:'Idle: '+lastIdle);
-}
-
-async function kirimPesan(){
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  var teks=$('pesanInput').value.trim();
-  if(!teks){log('Pesan kosong');return;}
-  try{
-    await fetch(db+'/kontrol/pesan.json',{method:'PUT',body:JSON.stringify(teks)});
-    $('pesanAktif').textContent=teks;
-    log('📨 Pesan: '+teks);
-  }catch(e){log('❌ '+e.message);}
-}
-
-async function hapusPesan(){
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    await fetch(db+'/kontrol/pesan.json',{method:'PUT',body:'""'});
-    $('pesanAktif').textContent='-';
-    log('🗑 Pesan dihapus');
-  }catch(e){log('❌ '+e.message);}
-}
-
-function quickPesan(t){$('pesanInput').value=t;kirimPesan();}
-
-// ============ MV LIST ============
-async function loadMvList(force){
-  var el=$('mvList');
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  if(force)el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div>';
-  try{
-    var r=await fetch(db+'/mv.json');
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    var data=await r.json();
-    if(!data){el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Belum ada MV.</div>';return;}
-    var keys=Object.keys(data);
-    var html='';
-    for(var i=0;i<keys.length;i++){
-      var k=keys[i],info=(data[k]&&data[k].info)||{};
-      var nm=info.nama||k,tot=info.totalFrame||0,fps=info.fps||10;
-      var dur=tot>0?(tot/fps).toFixed(1):'0';
-      var au=info.audioExt?('🔊 '+info.audioFile+'.'+info.audioExt):'🔇 tanpa audio';
-      var act=(k===lastAktif && lastTampil==='mv');
-      var tid='th_'+k.replace(/[^a-zA-Z0-9]/g,'_');
-      html+='<div class="mv-item'+(act?' active':'')+'">';
-      html+='<canvas class="mv-thumb" id="'+tid+'" width="128" height="64"></canvas>';
-      html+='<div class="mv-info">';
-      html+='<div class="nama">'+nm+(act?'<span class="badge">AKTIF</span>':'')+'</div>';
-      html+='<div class="meta">'+tot+' frame · '+fps+' fps · '+dur+'s</div>';
-      html+='<div class="meta">'+au+'</div></div>';
-      html+='<div class="mv-actions">';
-      html+='<button onclick="putarMV(\''+k+'\')">▶ Putar</button>';
-      html+='<button onclick="hapusMV(\''+k+'\')" style="background:linear-gradient(135deg,#b23b3b,#e05555)">🗑</button>';
-      html+='</div></div>';
-    }
-    el.innerHTML=html;
-    for(var j=0;j<keys.length;j++)loadThumb(keys[j],'th_'+keys[j].replace(/[^a-zA-Z0-9]/g,'_'));
-  }catch(e){
-    el.innerHTML='<div style="color:#ffb3b3;font-size:12px;text-align:center;padding:12px">Error: '+e.message+'</div>';
-  }
-}
-
-async function loadThumb(nama,cid){
-  if(chunkCache[nama]){
-    var c0=$(cid);
-    if(c0)renderPacked(chunkCache[nama],c0);
-    return;
-  }
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    var r=await fetch(db+'/mv/'+nama+'/chunk000.json');
-    if(!r.ok)return;
-    var txt=await r.text();
-    var p=JSON.parse(txt);
-    if(!p||typeof p!=='string')return;
-    var pipe=p.indexOf('|');
-    var b64=(pipe>0?p.substring(0,pipe):p).replace(/"/g,'').trim();
-    var bin=atob(b64);
-    var bytes=new Uint8Array(bin.length);
-    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-    if(bytes.length!==1024)return;
-    chunkCache[nama]=bytes;
-    var c=$(cid);if(c)renderPacked(bytes,c);
-  }catch(e){}
-}
-
-function renderPacked(bytes,canvas){
-  var ctx=canvas.getContext('2d'),img=ctx.createImageData(128,64);
-  for(var p=0;p<8;p++)for(var x=0;x<128;x++){
-    var b=bytes[p*128+x];
-    for(var bit=0;bit<8;bit++){
-      var y=p*8+bit,on=(b>>bit)&1,i=(y*128+x)*4,v=on?255:0;
-      img.data[i]=v;img.data[i+1]=v;img.data[i+2]=v;img.data[i+3]=255;
-    }
-  }
-  ctx.putImageData(img,0,0);
-}
-
-async function putarMV(nama){
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    await fetch(db+'/kontrol/aktif.json',{method:'PUT',body:JSON.stringify(nama)});
-    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify('mv')});
-    log('▶ Putar: '+nama);
-    lastAktif=nama;lastTampil='mv';
-    loadMvList(false);updateModeBtns();
-  }catch(e){log('❌ '+e.message);}
-}
-
-async function hapusMV(nama){
-  if(!confirm('Hapus MV "'+nama+'"?'))return;
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    await fetch(db+'/mv/'+nama+'.json',{method:'DELETE'});
-    log('🗑 '+nama);
-    delete chunkCache[nama];loadMvList(true);
-  }catch(e){log('❌ '+e.message);}
-}
-
-// ============ REALTIME ============
-async function pollRealtime(){
-  if(!realtimeOn)return;
-  var db=$('dbUrl').value.replace(/\/+$/,'');
-  try{
-    var r=await fetch(db+'/kontrol.json');
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    var data=await r.json()||{};
-    var tampil=data.tampil||'';
-    var idle=data.idle||'idle0';
-    var aktif=data.aktif||'';
-    var pesan=data.pesan||'';
-    $('rtTime').textContent=new Date().toLocaleTimeString();
-    $('rtDot').classList.remove('off');
-    var st='';
-    if(tampil==='mv')st='🎬 '+aktif;
-    else if(tampil==='idle')st='😴 '+idle;
-    else st='—';
-    $('rtStatus').textContent=st;
-    $('pesanAktif').textContent=pesan||'-';
-
-    var changed=false;
-    if(aktif!==lastAktif){lastAktif=aktif;changed=true;}
-    if(tampil!==lastTampil){lastTampil=tampil;changed=true;}
-    if(idle!==lastIdle){lastIdle=idle;changed=true;}
-    if(changed){loadMvList(false);updateModeBtns();}
-  }catch(e){
-    $('rtDot').classList.add('off');
-    $('rtStatus').textContent='Tidak terhubung';
-  }
-}
-
-function toggleRealtime(){
-  realtimeOn=!realtimeOn;
-  $('btnRt').textContent=realtimeOn?'⏸ Pause':'▶ Resume';
-  $('rtDot').classList.toggle('off',!realtimeOn);
-  if(realtimeOn)pollRealtime();
-  log(realtimeOn?'Realtime ON':'Realtime OFF');
-}
-
-log('Siap. Pilih video.');
-loadMvList(true);
-setInterval(pollRealtime,2000);
-pollRealtime();
-</script>
-</body>
-</html>
+function ui(){IDL.forEach(i=>$('i_'+i[0]).classList.toggle('sel',K.tampil!=='mv'&&(K.idle||'idle0')===i[0]));
+document.querySelectorAll('.mv').forEach(e=>e.classList.toggle('on',K.tampil==='mv'&&K.aktif===e.dataset.n))}
+async function poll(){try{const[k,s]=await Promise.all([api('GET','/kontrol'),api('GET','/status')]);K=k||{};S2=s||{};
+const on=S2.ts&&Date.now()-S2.ts<40000;$('dot').classList.toggle('ok',!!on);
+$('ds').textContent=on?'ESP32 online · '+S2.ip+' · '+S2.rssi+' dBm'+(S2.mv?' · '+S2.mv:''):'ESP32 offline';ui()}
+catch(e){$('dot').classList.remove('ok');$('ds').textContent='Firebase tidak terjangkau'}}
+log('Siap. Pilih video.');lib();poll();setInterval(poll,2500);
+</script></body></html>
