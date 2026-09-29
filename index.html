@@ -15,9 +15,9 @@ h1{font-size:20px;text-align:center;margin:6px 0 14px;color:var(--a)}
 padding:14px;margin:10px auto;max-width:520px;backdrop-filter:blur(10px)}
 h3{margin:0 0 10px;font-size:14px;color:var(--a);text-transform:uppercase;letter-spacing:1px}
 label{display:block;font-size:12px;opacity:.85;margin:10px 0 3px}
-input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
 background:rgba(255,255,255,.08);color:var(--t);font-size:14px;font-family:inherit;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--a);background:rgba(255,255,255,.14)}
+input:focus,select:focus{border-color:var(--a);background:rgba(255,255,255,.14)}
 input[type=file]{padding:8px}
 button{background:linear-gradient(135deg,var(--a),#ff85b3);border:none;color:#fff;
 padding:12px 14px;margin:4px 2px;border-radius:10px;font-size:14px;font-weight:600;
@@ -32,9 +32,7 @@ width:256px;height:128px;image-rendering:pixelated}
 #log{background:rgba(0,0,0,.4);border-radius:8px;padding:10px;font-family:monospace;
 font-size:11px;max-height:180px;overflow-y:auto;color:#a8e6a8;margin-top:8px;
 white-space:pre-wrap;word-break:break-all}
-#progWrap{margin-top:10px}
-progress{width:100%;height:10px;border-radius:6px;overflow:hidden;background:rgba(0,0,0,.4);
-border:none;appearance:none}
+progress{width:100%;height:10px;border-radius:6px;overflow:hidden;background:rgba(0,0,0,.4);border:none;appearance:none;margin-top:10px}
 progress::-webkit-progress-bar{background:rgba(0,0,0,.3);border-radius:6px}
 progress::-webkit-progress-value{background:linear-gradient(90deg,var(--a),#ff85b3);border-radius:6px}
 .hint{font-size:11px;opacity:.6;margin:4px 0 8px}
@@ -43,34 +41,30 @@ video{display:none}
 audio{width:100%;margin-top:8px}
 .stat{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08)}
 .stat span:last-child{color:var(--a);font-weight:600}
-.sync-box{background:rgba(0,0,0,.3);border:1px solid var(--a);border-radius:10px;
-padding:10px;margin:8px 0;font-size:12px}
+.sync-box{background:rgba(0,0,0,.3);border:1px solid var(--a);border-radius:10px;padding:10px;margin:8px 0;font-size:12px}
 .sync-box b{color:var(--a)}
-.mv-item{background:rgba(0,0,0,.3);border-radius:10px;padding:10px;margin:8px 0;
-display:flex;gap:10px;align-items:center;transition:border-color .3s}
+.mv-item{background:rgba(0,0,0,.3);border-radius:10px;padding:10px;margin:8px 0;display:flex;gap:10px;align-items:center;transition:border-color .3s}
 .mv-item.active{border:2px solid var(--a);box-shadow:0 0 12px rgba(255,77,141,.4)}
-.mv-thumb{flex-shrink:0;width:80px;height:40px;background:#000;border-radius:6px;
-border:1px solid rgba(255,255,255,.2);image-rendering:pixelated}
+.mv-thumb{flex-shrink:0;width:80px;height:40px;background:#000;border-radius:6px;border:1px solid rgba(255,255,255,.2);image-rendering:pixelated}
 .mv-info{flex:1;min-width:0;text-align:left}
-.mv-info .nama{font-weight:600;font-size:14px;margin-bottom:2px;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv-info .nama{font-weight:600;font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mv-info .meta{font-size:11px;opacity:.75;margin:2px 0}
-.mv-info .badge{display:inline-block;background:var(--a);color:#fff;
-font-size:10px;padding:2px 8px;border-radius:10px;margin-left:6px;
-vertical-align:middle;animation:pulse 1.5s infinite}
+.mv-info .badge{display:inline-block;background:var(--a);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .mv-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
 .mv-actions button{padding:6px 10px;font-size:11px;margin:0;min-width:60px}
-.realtime-bar{background:rgba(0,0,0,.4);border:1px solid var(--a);border-radius:10px;
-padding:8px 10px;margin:8px 0;font-size:11px;display:flex;flex-wrap:wrap;gap:8px;
-align-items:center;justify-content:space-between}
-.realtime-bar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
-background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
+.realtime-bar{background:rgba(0,0,0,.4);border:1px solid var(--a);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:11px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.realtime-bar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
 .realtime-bar .dot.off{background:#b23b3b;animation:none}
 .realtime-bar .time{opacity:.7;font-family:monospace}
 .mode-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .mode-btns button{flex:1;min-width:100px;font-size:12px}
 .mode-btns button.on{outline:2px solid #fff;box-shadow:0 0 12px var(--a)}
+.range-row{display:flex;align-items:center;gap:8px;margin:6px 0}
+.range-row label{flex:0 0 90px;margin:0;font-size:12px}
+.range-row input[type=range]{flex:1;padding:0}
+.range-row .val{flex:0 0 45px;text-align:right;font-size:12px;color:var(--a);font-weight:600}
+.enhance-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
 </style>
 </head>
 <body>
@@ -80,11 +74,10 @@ background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
 <div class="card">
 <h3>1. Video</h3>
 <input type="file" id="videoFile" accept="video/*">
-<div class="hint">Pilih video dari galeri. Format MP4/MOV/WebM.</div>
 <div id="videoInfo" style="font-size:12px;opacity:.8;margin-top:8px"></div>
 <div id="previewWrap">
 <canvas id="previewCanvas" width="128" height="64"></canvas>
-<div style="font-size:11px;opacity:.7;margin-top:6px">Preview frame (128×64)</div>
+<div style="font-size:11px;opacity:.7;margin-top:6px">Preview 128×64 (hasil enhancement)</div>
 </div>
 <video id="videoEl" playsinline muted></video>
 </div>
@@ -92,58 +85,100 @@ background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
 <div class="card">
 <h3>2. Pengaturan Konversi</h3>
 <div class="row">
-<div><label>Mulai dari (detik)</label><input type="number" id="startTime" value="0" min="0" step="0.1"></div>
+<div><label>Mulai (detik)</label><input type="number" id="startTime" value="0" min="0" step="0.1"></div>
 <div><label>Durasi (detik)</label><input type="number" id="duration" value="30" min="0.5" step="0.5"></div>
 </div>
 <div class="row">
 <div><label>FPS (5–15)</label><input type="number" id="fps" value="10" min="5" max="15"></div>
-<div><label>Threshold (0–255)</label><input type="number" id="threshold" value="128" min="0" max="255"></div>
+<div><label>Threshold</label><input type="number" id="threshold" value="128" min="0" max="255"></div>
 </div>
-<label>Metode Konversi</label>
+<label>Metode</label>
 <select id="ditherMode">
-<option value="fs">Floyd-Steinberg (halus, lambat)</option>
-<option value="thresh">Threshold saja (cepat)</option>
+<option value="fs">Floyd-Steinberg (halus)</option>
+<option value="thresh">Threshold (cepat)</option>
 </select>
 <label>Invert Warna</label>
 <select id="invertMode">
-<option value="0">Normal (terang = putih)</option>
-<option value="1">Invert (gelap = putih)</option>
+<option value="0">Normal (terang=putih)</option>
+<option value="1">Invert (gelap=putih)</option>
 </select>
 </div>
 
 <div class="card">
-<h3>3. Audio (untuk DFPlayer)</h3>
+<h3>3. Enhancement Visual</h3>
+<div class="hint">Perbaiki visual sebelum dikonversi ke OLED 128×64</div>
+
+<label>Mode Crop Video</label>
+<select id="cropMode">
+<option value="fit">Fit — letterbox, seluruh video muat</option>
+<option value="fill">Fill — crop tengah, penuh layar</option>
+<option value="stretch">Stretch — regangkan paksa</option>
+<option value="manual">Manual — pilih area sendiri</option>
+</select>
+
+<div id="manualCrop" style="display:none">
+<label>Manual Crop (persen dari video)</label>
+<div class="row">
+<div><label>X (%)</label><input type="number" id="cropX" value="0" min="0" max="100" step="1"></div>
+<div><label>Y (%)</label><input type="number" id="cropY" value="0" min="0" max="100" step="1"></div>
+</div>
+<div class="row">
+<div><label>Lebar (%)</label><input type="number" id="cropW" value="100" min="1" max="100" step="1"></div>
+<div><label>Tinggi (%)</label><input type="number" id="cropH" value="100" min="1" max="100" step="1"></div>
+</div>
+</div>
+
+<div class="range-row">
+<label>Brightness</label>
+<input type="range" id="brightness" min="-100" max="100" value="0">
+<span class="val" id="brightnessV">0</span>
+</div>
+<div class="range-row">
+<label>Contrast</label>
+<input type="range" id="contrast" min="-100" max="100" value="0">
+<span class="val" id="contrastV">0</span>
+</div>
+<div class="range-row">
+<label>Gamma</label>
+<input type="range" id="gamma" min="50" max="200" value="100">
+<span class="val" id="gammaV">1.0</span>
+</div>
+<div class="range-row">
+<label>Pre-Blur</label>
+<input type="range" id="blur" min="0" max="3" value="0">
+<span class="val" id="blurV">0</span>
+</div>
+
+<div class="enhance-grid">
+<label style="display:flex;align-items:center;gap:6px;font-size:12px">
+<input type="checkbox" id="flipH" style="width:auto;margin:0"> Mirror Horizontal
+</label>
+<label style="display:flex;align-items:center;gap:6px;font-size:12px">
+<input type="checkbox" id="flipV" style="width:auto;margin:0"> Mirror Vertikal
+</label>
+</div>
+
+<div class="hint">Tap <b>👁 Preview</b> untuk lihat hasilnya di canvas.</div>
+</div>
+
+<div class="card">
+<h3>4. Audio (opsional)</h3>
 <label>Ekstrak Audio?</label>
 <select id="audioMode">
-<option value="1">Ya, ekstrak audio dari video</option>
-<option value="0">Tidak, hanya visual</option>
+<option value="1">Ya, ekstrak dari video</option>
+<option value="0">Tidak</option>
 </select>
 <div class="row">
-<div><label>Format</label>
-<select id="audioFormat">
-<option value="mp3">MP3 (kecil, DFPlayer)</option>
-<option value="wav">WAV (besar, aman)</option>
-</select>
+<div><label>Format</label><select id="audioFormat"><option value="mp3">MP3</option><option value="wav">WAV</option></select></div>
+<div><label>Bitrate</label><select id="audioBitrate"><option value="64">64</option><option value="96">96</option><option value="128" selected>128</option><option value="192">192</option></select></div>
 </div>
-<div><label>MP3 Bitrate (kbps)</label>
-<select id="audioBitrate">
-<option value="64">64</option>
-<option value="96">96</option>
-<option value="128" selected>128</option>
-<option value="192">192</option>
-</select>
-</div>
-</div>
-<label>Nama file di SD card</label>
+<label>Nama file SD card</label>
 <input type="text" id="audioFileName" value="0001" maxlength="4">
-<div class="hint">DFPlayer butuh nama 4 digit: 0001, 0002, dst.</div>
-<div id="audioPreviewWrap" style="display:none;margin-top:8px">
-<audio id="audioPreview" controls></audio>
-</div>
+<div id="audioPreviewWrap" style="display:none;margin-top:8px"><audio id="audioPreview" controls></audio></div>
 </div>
 
 <div class="card">
-<h3>4. Firebase</h3>
+<h3>5. Firebase</h3>
 <label>Nama MV</label>
 <input type="text" id="mvName" value="mv1" maxlength="30">
 <label>Firebase DB URL</label>
@@ -151,45 +186,48 @@ background:#1faa59;margin-right:4px;animation:pulse 1.5s infinite}
 </div>
 
 <div class="card">
-<h3>5. Jalankan</h3>
+<h3>6. Jalankan</h3>
 <div class="btn-row">
-<button onclick="previewFrame()">👁 Preview Frame</button>
-<button onclick="previewAudio()">🎧 Preview Audio</button>
+<button onclick="previewFrame()">👁 Preview</button>
+<button onclick="previewAudio()">🎧 Audio</button>
 </div>
 <div class="btn-row">
-<button onclick="startConvert()" id="btnConvert">🎞 Konversi Frame</button>
+<button onclick="startConvert()" id="btnConvert">🎞 Konversi</button>
 <button onclick="extractAudio()" id="btnAudio">🎵 Ekstrak Audio</button>
 </div>
 <div class="btn-row">
-<button onclick="uploadToFirebase()" id="btnUpload">☁ Upload ke Firebase</button>
-<button onclick="downloadJSON()">💾 Download JSON</button>
+<button onclick="uploadToFirebase()" id="btnUpload">☁ Upload</button>
+<button onclick="downloadAudio()">⬇ Audio</button>
 </div>
 <div class="btn-row">
-<button onclick="downloadAudio()" id="btnDlAudio">⬇ Download Audio</button>
+<button onclick="downloadJSON()">💾 JSON</button>
+<button onclick="clearLog()">🗑 Log</button>
 </div>
-<div class="btn-row">
-<button onclick="clearLog()">🗑 Bersihkan Log</button>
-</div>
+<progress id="prog" value="0" max="100"></progress>
+<div id="log"></div>
 </div>
 
 <div class="card">
-<h3>6. Mode & Kontrol ESP32</h3>
-<div class="hint">Kontrol mode tampilan di OLED secara realtime</div>
+<h3>7. Mode Tampilan ESP32</h3>
+<div class="hint">Idle & MV terpisah — tidak akan tabrakan</div>
 <div class="mode-btns">
-<button onclick="setMode('idle0')" id="mode_idle0">😴 Idle: Wajah</button>
-<button onclick="setMode('idle1')" id="mode_idle1">💤 Idle: Tidur</button>
-<button onclick="setMode('idle2')" id="mode_idle2">💕 Idle: Hati</button>
-<button onclick="setMode('idle3')" id="mode_idle3">🌸 Idle: Bunga</button>
-<button onclick="setMode('menu')" id="mode_menu">📋 Menu</button>
-<button onclick="setMode('mv')" id="mode_mv">🎬 MV</button>
+<button onclick="setIdle('idle0')" id="mi0">😴 Wajah</button>
+<button onclick="setIdle('idle1')" id="mi1">💤 Tidur</button>
+<button onclick="setIdle('idle2')" id="mi2">💕 Hati</button>
+<button onclick="setIdle('idle3')" id="mi3">🌸 Bunga</button>
+<button onclick="setIdle('menu')" id="mim">📋 Menu</button>
+<button onclick="setTampil('mv')" id="mmv">🎬 MV</button>
+</div>
+<div style="font-size:11px;opacity:.75;margin-top:8px">
+Status: <span id="modeInfo" style="color:var(--a)">-</span>
 </div>
 </div>
 
 <div class="card">
-<h3>7. Kirim Pesan ke OLED</h3>
-<input type="text" id="pesanInput" maxlength="80" placeholder="Ketik pesan untuk ditampilkan...">
+<h3>8. Kirim Pesan ke OLED</h3>
+<input type="text" id="pesanInput" maxlength="80" placeholder="Ketik pesan...">
 <div class="btn-row" style="margin-top:8px">
-<button onclick="kirimPesan()">📨 Kirim ke OLED</button>
+<button onclick="kirimPesan()">📨 Kirim</button>
 <button onclick="hapusPesan()">🗑 Hapus</button>
 </div>
 <div class="btn-row">
@@ -203,656 +241,615 @@ Pesan aktif: <span id="pesanAktif" style="color:var(--a)">-</span>
 </div>
 
 <div class="card">
-<h3>8. MV Tersimpan di Firebase</h3>
-<div class="realtime-bar" id="realtimeBar">
+<h3>9. MV Tersimpan</h3>
+<div class="realtime-bar">
 <span><span class="dot" id="rtDot"></span><span id="rtStatus">Menghubungkan...</span></span>
 <span class="time" id="rtTime">-</span>
 </div>
-<div class="hint">Tap ▶ Putar untuk ganti MV di ESP32 (~3 detik). Thumbnail akan bergerak saat MV aktif.</div>
-<div id="mvList">
-<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div>
-</div>
+<div id="mvList"><div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div></div>
 <div class="btn-row" style="margin-top:8px">
 <button onclick="loadMvList(true)">🔄 Refresh</button>
-<button onclick="toggleRealtime()" id="btnRt">⏸ Pause Realtime</button>
+<button onclick="toggleRealtime()" id="btnRt">⏸ Pause</button>
 </div>
-</div>
-
-<div class="card">
-<h3>9. Info Sinkronisasi</h3>
-<div class="sync-box">
-<b>Sync ke ESP32:</b><br>
-• Frame ke-N muncul di <b>N ÷ FPS × 1000 ms</b><br>
-• Audio & frame mulai bersamaan → otomatis sinkron
-</div>
-<div id="syncData" style="font-size:12px;opacity:.85"></div>
 </div>
 
 <div class="card">
 <h3>10. Status</h3>
-<div class="stat"><span>Video dimuat</span><span id="statVideo">-</span></div>
-<div class="stat"><span>Frame dikonversi</span><span id="statFrames">0</span></div>
-<div class="stat"><span>Estimasi ukuran frame</span><span id="statSize">0 KB</span></div>
-<div class="stat"><span>Jumlah chunk</span><span id="statChunks">0</span></div>
+<div class="stat"><span>Video</span><span id="statVideo">-</span></div>
+<div class="stat"><span>Frame</span><span id="statFrames">0</span></div>
+<div class="stat"><span>Ukuran frame</span><span id="statSize">0 KB</span></div>
+<div class="stat"><span>Chunk</span><span id="statChunks">0</span></div>
 <div class="stat"><span>Audio</span><span id="statAudio">-</span></div>
-<div id="progWrap"><progress id="prog" value="0" max="100"></progress></div>
-<div id="log"></div>
 </div>
 
 <script>
-var videoFile=null;
-var videoEl=null;
-var frames=[];
-var audioBlob=null;
-var audioExt='';
-var audioDuration=0;
-var realtimeOn=true;
-var thumbnailCache={};
-var chunkCache={};
-var lastAktif='';
-var lastAktifTime=0;
-var currentMode='';
-var thumbAnimTimer=null;
-var thumbAnimFrame=0;
+var videoFile=null, videoEl=null, frames=[], audioBlob=null, audioExt='', audioDuration=0;
+var realtimeOn=true, chunkCache={}, lastAktif='', lastTampil='', lastIdle='';
 
-function log(msg){
-  var el=document.getElementById('log');
-  var t=new Date().toLocaleTimeString();
-  el.innerHTML='['+t+'] '+msg+'\n'+el.innerHTML;
-  while(el.childNodes.length>100)el.removeChild(el.lastChild);
-}
-function clearLog(){document.getElementById('log').innerHTML='';}
+function $(i){return document.getElementById(i)}
+function log(m){var e=$('log');var t=new Date().toLocaleTimeString();
+e.innerHTML='['+t+'] '+m+'\n'+e.innerHTML;while(e.childNodes.length>100)e.removeChild(e.lastChild);}
+function clearLog(){$('log').innerHTML='';}
+
+['brightness','contrast','gamma','blur'].forEach(function(id){
+  $(id).addEventListener('input',function(){
+    var v=parseInt(this.value);
+    if(id==='gamma')$('gammaV').textContent=(v/100).toFixed(1);
+    else $(id+'V').textContent=v;
+  });
+});
+$('cropMode').addEventListener('change',function(){
+  $('manualCrop').style.display=(this.value==='manual')?'block':'none';
+});
 
 function updateStats(){
-  document.getElementById('statFrames').textContent=frames.length;
-  var totalBytes=frames.length*1024;
-  document.getElementById('statSize').textContent=
-    totalBytes>1048576?(totalBytes/1048576).toFixed(2)+' MB':
-    (totalBytes/1024).toFixed(1)+' KB';
-  document.getElementById('statChunks').textContent=Math.ceil(frames.length/30);
-  document.getElementById('statAudio').textContent=audioBlob?
-    (audioExt.toUpperCase()+' '+(audioBlob.size/1024).toFixed(0)+' KB'):'-';
+  $('statFrames').textContent=frames.length;
+  var tb=frames.length*1024;
+  $('statSize').textContent=tb>1048576?(tb/1048576).toFixed(2)+' MB':(tb/1024).toFixed(1)+' KB';
+  $('statChunks').textContent=Math.ceil(frames.length/30);
+  $('statAudio').textContent=audioBlob?(audioExt.toUpperCase()+' '+(audioBlob.size/1024).toFixed(0)+' KB'):'-';
 }
 
-document.getElementById('videoFile').addEventListener('change',function(e){
+$('videoFile').addEventListener('change',function(e){
   videoFile=e.target.files[0];
   if(!videoFile){log('Tidak ada file');return;}
-  videoEl=document.getElementById('videoEl');
+  videoEl=$('videoEl');
   videoEl.src=URL.createObjectURL(videoFile);
   videoEl.onloadedmetadata=function(){
     var vw=videoEl.videoWidth,vh=videoEl.videoHeight,dur=videoEl.duration;
-    document.getElementById('videoInfo').textContent=
-      '📹 '+vw+'×'+vh+' | '+dur.toFixed(2)+'s | '+
-      (videoFile.size/1048576).toFixed(2)+' MB';
-    document.getElementById('statVideo').textContent=dur.toFixed(1)+'s';
-    log('Video dimuat: '+vw+'x'+vh+', '+dur.toFixed(2)+'s');
-    if(dur<60)document.getElementById('duration').value=Math.min(30,Math.floor(dur));
-    else document.getElementById('duration').value=60;
+    $('videoInfo').textContent='📹 '+vw+'×'+vh+' | '+dur.toFixed(2)+'s | '+(videoFile.size/1048576).toFixed(2)+' MB';
+    $('statVideo').textContent=dur.toFixed(1)+'s';
+    log('Video: '+vw+'x'+vh+', '+dur.toFixed(2)+'s');
+    if(dur<60)$('duration').value=Math.min(30,Math.floor(dur));
+    else $('duration').value=60;
   };
 });
 
-function extractFrame(time){
+// ============ FRAME PROCESSING PIPELINE ============
+function computeCropRect(){
+  var vw=videoEl.videoWidth, vh=videoEl.videoHeight;
+  var targetRatio=128/64; // 2:1
+  var mode=$('cropMode').value;
+  var sx=0,sy=0,sw=vw,sh=vh;
+  if(mode==='fill'){
+    var srcRatio=vw/vh;
+    if(srcRatio>targetRatio){sw=vh*targetRatio;sx=(vw-sw)/2;}
+    else{sh=vw/targetRatio;sy=(vh-sh)/2;}
+  } else if(mode==='stretch'){
+    // use entire, distort
+  } else if(mode==='manual'){
+    var cx=parseInt($('cropX').value)/100;
+    var cy=parseInt($('cropY').value)/100;
+    var cw=parseInt($('cropW').value)/100;
+    var ch=parseInt($('cropH').value)/100;
+    sx=vw*cx; sy=vh*cy; sw=vw*cw; sh=vh*ch;
+  }
+  // 'fit' → use full, letterbox via canvas clear
+  return {sx:sx,sy:sy,sw:sw,sh:sh,useLetterbox:(mode==='fit')};
+}
+
+function extractFrameProcessed(time){
   return new Promise(function(resolve,reject){
     var v=videoEl;var done=false;
-    var to=setTimeout(function(){if(!done){done=true;reject('timeout');}},5000);
+    var to=setTimeout(function(){if(!done){done=true;reject('timeout');}},6000);
     v.onseeked=function(){
       if(done)return;done=true;clearTimeout(to);
-      var c=document.getElementById('previewCanvas');
-      var ctx=c.getContext('2d',{willReadFrequently:true});
-      ctx.drawImage(v,0,0,128,64);
+      var tmp=document.createElement('canvas');
+      tmp.width=128;tmp.height=64;
+      var ctx=tmp.getContext('2d',{willReadFrequently:true});
+      ctx.fillStyle='#000';ctx.fillRect(0,0,128,64);
+      var crop=computeCropRect();
+      var dx=0,dy=0,dw=128,dh=64;
+      if(crop.useLetterbox){
+        // Fit: compute scale to fit inside 128x64
+        var vw=videoEl.videoWidth,vh=videoEl.videoHeight;
+        var sc=Math.min(128/vw, 64/vh);
+        dw=vw*sc; dh=vh*sc;
+        dx=(128-dw)/2; dy=(64-dh)/2;
+        ctx.drawImage(v,0,0,vw,vh,dx,dy,dw,dh);
+      } else {
+        ctx.drawImage(v,crop.sx,crop.sy,crop.sw,crop.sh,0,0,128,64);
+      }
       resolve(ctx.getImageData(0,0,128,64));
     };
     v.currentTime=Math.max(0,Math.min(time,v.duration-0.05));
   });
 }
 
-function toGray(imgData){
-  var d=imgData.data;var g=new Float32Array(128*64);
-  for(var i=0;i<128*64;i++){
-    g[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];
+function toGray(img){
+  var d=img.data,g=new Float32Array(128*64);
+  for(var i=0;i<128*64;i++)g[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];
+  return g;
+}
+
+function applyEnhance(g){
+  var b=parseInt($('brightness').value);
+  var c=parseInt($('contrast').value);
+  var gam=parseInt($('gamma').value)/100;
+  var cFactor=(259*(c+255))/(255*(259-c));
+  for(var i=0;i<g.length;i++){
+    var v=g[i]+b;
+    v=cFactor*(v-128)+128;
+    if(v<0)v=0; if(v>255)v=255;
+    if(gam!==1.0){
+      var n=v/255;
+      n=Math.pow(n,1.0/gam);
+      v=n*255;
+    }
+    g[i]=v;
   }
   return g;
 }
 
-function threshold(gray,thr,invert){
-  var out=new Array(128*64);
-  for(var i=0;i<gray.length;i++){
-    var on=gray[i]>=thr;if(invert)on=!on;out[i]=on;
-  }
-  return out;
-}
-
-function floydSteinberg(gray,thr,invert){
-  var w=128,h=64;var buf=Float32Array.from(gray);var out=new Array(w*h);
+function boxBlur(g,w,h,r){
+  if(r<1)return g;
+  var tmp=new Float32Array(g.length);
+  var out=new Float32Array(g.length);
+  var size=r*2+1;
+  // horizontal
   for(var y=0;y<h;y++){
     for(var x=0;x<w;x++){
-      var i=y*w+x;var old=buf[i];
-      var on=old>=thr;var newVal=on?255:0;
-      if(invert)on=!on;out[i]=on;
-      var err=old-newVal;
-      if(x+1<w)buf[i+1]+=err*7/16;
-      if(y+1<h){
-        if(x>0)buf[i+w-1]+=err*3/16;
-        buf[i+w]+=err*5/16;
-        if(x+1<w)buf[i+w+1]+=err*1/16;
+      var sum=0,cnt=0;
+      for(var k=-r;k<=r;k++){
+        var xx=x+k;if(xx<0||xx>=w)continue;
+        sum+=g[y*w+xx];cnt++;
       }
+      tmp[y*w+x]=sum/cnt;
+    }
+  }
+  // vertical
+  for(var x=0;x<w;x++){
+    for(var y=0;y<h;y++){
+      var sum=0,cnt=0;
+      for(var k=-r;k<=r;k++){
+        var yy=y+k;if(yy<0||yy>=h)continue;
+        sum+=tmp[yy*w+x];cnt++;
+      }
+      out[y*w+x]=sum/cnt;
     }
   }
   return out;
 }
 
-function packSSD1306(binary){
-  var buf=new Uint8Array(1024);
-  for(var page=0;page<8;page++){
-    for(var x=0;x<128;x++){
-      var byte=0;
-      for(var bit=0;bit<8;bit++){
-        var y=page*8+bit;
-        if(binary[y*128+x])byte|=(1<<bit);
-      }
-      buf[page*128+x]=byte;
+function flipImage(img,h,v){
+  var d=img.data;
+  var w=128,ht=64;
+  var copy=new Uint8ClampedArray(d);
+  for(var y=0;y<ht;y++){
+    for(var x=0;x<w;x++){
+      var srcX=h?(w-1-x):x;
+      var srcY=v?(ht-1-y):y;
+      var si=(srcY*w+srcX)*4;
+      var di=(y*w+x)*4;
+      d[di]=copy[si];d[di+1]=copy[si+1];d[di+2]=copy[si+2];d[di+3]=255;
     }
   }
-  return buf;
+  return img;
 }
 
-function bytesToBase64(bytes){
-  var bin='';var chunk=8192;
-  for(var i=0;i<bytes.length;i+=chunk){
-    bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+chunk));
+function threshold(g,thr,inv){
+  var o=new Array(128*64);
+  for(var i=0;i<g.length;i++){var on=g[i]>=thr;if(inv)on=!on;o[i]=on;}
+  return o;
+}
+
+function floydSteinberg(g,thr,inv){
+  var w=128,h=64,buf=Float32Array.from(g),o=new Array(w*h);
+  for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+    var i=y*w+x,old=buf[i],on=old>=thr,newVal=on?255:0;
+    if(inv)on=!on;o[i]=on;
+    var err=old-newVal;
+    if(x+1<w)buf[i+1]+=err*7/16;
+    if(y+1<h){if(x>0)buf[i+w-1]+=err*3/16;buf[i+w]+=err*5/16;if(x+1<w)buf[i+w+1]+=err*1/16;}
   }
+  return o;
+}
+
+function packSSD(bin){
+  var b=new Uint8Array(1024);
+  for(var p=0;p<8;p++)for(var x=0;x<128;x++){
+    var by=0;
+    for(var bit=0;bit<8;bit++){var y=p*8+bit;if(bin[y*128+x])by|=(1<<bit);}
+    b[p*128+x]=by;
+  }
+  return b;
+}
+
+function b64e(bytes){
+  var bin='',ch=8192;
+  for(var i=0;i<bytes.length;i+=ch)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+ch));
   return btoa(bin);
 }
 
-function base64ToBytes(b64){
-  var bin=atob(b64);
-  var bytes=new Uint8Array(bin.length);
-  for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-  return bytes;
-}
-
-function renderBinary(binary){
-  var c=document.getElementById('previewCanvas');
-  var ctx=c.getContext('2d');
+function renderBin(bin){
+  var c=$('previewCanvas'),ctx=c.getContext('2d');
   var img=ctx.createImageData(128,64);
-  for(var i=0;i<128*64;i++){
-    var v=binary[i]?255:0;
-    img.data[i*4]=v;img.data[i*4+1]=v;img.data[i*4+2]=v;img.data[i*4+3]=255;
-  }
-  ctx.putImageData(img,0,0);
-}
-
-function renderPackedToCanvas(bytes,canvas){
-  var ctx=canvas.getContext('2d');
-  var img=ctx.createImageData(128,64);
-  for(var page=0;page<8;page++){
-    for(var x=0;x<128;x++){
-      var b=bytes[page*128+x];
-      for(var bit=0;bit<8;bit++){
-        var y=page*8+bit;
-        var on=(b>>bit)&1;
-        var i=(y*128+x)*4;
-        var v=on?255:0;
-        img.data[i]=v;img.data[i+1]=v;img.data[i+2]=v;img.data[i+3]=255;
-      }
-    }
-  }
+  for(var i=0;i<128*64;i++){var v=bin[i]?255:0;
+  img.data[i*4]=v;img.data[i*4+1]=v;img.data[i*4+2]=v;img.data[i*4+3]=255;}
   ctx.putImageData(img,0,0);
 }
 
 async function previewFrame(){
   if(!videoEl||!videoEl.duration){log('Belum ada video');return;}
-  var t=parseFloat(document.getElementById('startTime').value);
-  var thr=parseInt(document.getElementById('threshold').value);
-  var mode=document.getElementById('ditherMode').value;
-  var inv=document.getElementById('invertMode').value==='1';
-  log('Preview frame @ '+t+'s...');
+  var t=parseFloat($('startTime').value);
+  var thr=parseInt($('threshold').value);
+  var mode=$('ditherMode').value;
+  var inv=$('invertMode').value==='1';
+  log('Preview...');
   try{
-    var imgData=await extractFrame(t);
-    var gray=toGray(imgData);
-    var binary=mode==='fs'?floydSteinberg(gray,thr,inv):threshold(gray,thr,inv);
-    renderBinary(binary);
+    var img=await extractFrameProcessed(t);
+    if($('flipH').checked||$('flipV').checked)img=flipImage(img,$('flipH').checked,$('flipV').checked);
+    var g=toGray(img);
+    g=applyEnhance(g);
+    var blur=parseInt($('blur').value);
+    if(blur>0)g=boxBlur(g,128,64,blur);
+    var bin=mode==='fs'?floydSteinberg(g,thr,inv):threshold(g,thr,inv);
+    renderBin(bin);
     log('Preview OK');
   }catch(e){log('Error: '+e);}
 }
 
 async function startConvert(){
   if(!videoEl||!videoEl.duration){log('Belum ada video');return;}
-  var start=parseFloat(document.getElementById('startTime').value);
-  var dur=parseFloat(document.getElementById('duration').value);
-  var fps=parseInt(document.getElementById('fps').value);
-  var thr=parseInt(document.getElementById('threshold').value);
-  var mode=document.getElementById('ditherMode').value;
-  var inv=document.getElementById('invertMode').value==='1';
+  var start=parseFloat($('startTime').value);
+  var dur=parseFloat($('duration').value);
+  var fps=parseInt($('fps').value);
+  var thr=parseInt($('threshold').value);
+  var mode=$('ditherMode').value;
+  var inv=$('invertMode').value==='1';
+  var blur=parseInt($('blur').value);
+  var flipH=$('flipH').checked, flipV=$('flipV').checked;
 
   var total=Math.floor(dur*fps);
   if(total<1){log('Total frame 0');return;}
-  if(total>3000){log('⚠ '+total+' frame, proses lama. Lanjut...');}
+  if(total>3000){log('⚠ '+total+' frame');}
 
-  document.getElementById('btnConvert').disabled=true;
-  document.getElementById('btnUpload').disabled=true;
+  $('btnConvert').disabled=true;$('btnUpload').disabled=true;
   frames=[];
-  log('Mulai konversi '+total+' frame @ '+fps+' fps...');
+  log('Konversi '+total+' frame @ '+fps+' fps...');
   var t0=Date.now();
 
   for(var i=0;i<total;i++){
     var t=start+i/fps;
-    if(t>videoEl.duration){log('Video habis di frame '+i);break;}
+    if(t>videoEl.duration){log('Video habis');break;}
     try{
-      var imgData=await extractFrame(t);
-      var gray=toGray(imgData);
-      var binary=mode==='fs'?floydSteinberg(gray,thr,inv):threshold(gray,thr,inv);
-      var buf=packSSD1306(binary);
-      var b64=bytesToBase64(buf);
-      frames.push(b64);
-    }catch(e){
-      log('Frame '+i+' gagal');frames.push(frames[frames.length-1]||'');
-    }
+      var img=await extractFrameProcessed(t);
+      if(flipH||flipV)img=flipImage(img,flipH,flipV);
+      var g=toGray(img);
+      g=applyEnhance(g);
+      if(blur>0)g=boxBlur(g,128,64,blur);
+      var bin=mode==='fs'?floydSteinberg(g,thr,inv):threshold(g,thr,inv);
+      frames.push(b64e(packSSD(bin)));
+    }catch(e){frames.push(frames[frames.length-1]||'');}
     if(i%5===0||i===total-1){
-      document.getElementById('prog').value=((i+1)/total)*100;
-      var elapsed=(Date.now()-t0)/1000;
-      var eta=elapsed/(i+1)*(total-i-1);
-      log('Frame '+(i+1)+'/'+total+' | '+elapsed.toFixed(0)+'s | sisa ~'+eta.toFixed(0)+'s');
+      $('prog').value=((i+1)/total)*100;
+      var el=(Date.now()-t0)/1000,eta=el/(i+1)*(total-i-1);
+      log('Frame '+(i+1)+'/'+total+' | '+el.toFixed(0)+'s | sisa ~'+eta.toFixed(0)+'s');
       await new Promise(function(r){setTimeout(r,0);});
     }
-    if(frames.length>3000){log('Batas 3000 frame');break;}
+    if(frames.length>3000)break;
   }
   updateStats();
-  log('✅ Frame selesai: '+frames.length+' dalam '+((Date.now()-t0)/1000).toFixed(1)+'s');
-  document.getElementById('btnConvert').disabled=false;
-  document.getElementById('btnUpload').disabled=false;
+  log('✅ Selesai: '+frames.length+' frame dalam '+((Date.now()-t0)/1000).toFixed(1)+'s');
+  $('btnConvert').disabled=false;$('btnUpload').disabled=false;
 }
 
 async function extractAudio(){
   if(!videoFile){log('Pilih video dulu');return;}
-  if(document.getElementById('audioMode').value!=='1'){log('Audio dimatikan');return;}
-  document.getElementById('btnAudio').disabled=true;
+  if($('audioMode').value!=='1'){log('Audio off');return;}
+  $('btnAudio').disabled=true;
   log('🎵 Decode audio...');
   try{
     var ab=await videoFile.arrayBuffer();
     var ac=new (window.AudioContext||window.webkitAudioContext)();
-    var decoded=await ac.decodeAudioData(ab.slice(0));
-    log('Decode OK: '+decoded.sampleRate+'Hz, '+decoded.duration.toFixed(2)+'s');
-    var start=parseFloat(document.getElementById('startTime').value);
-    var dur=parseFloat(document.getElementById('duration').value);
-    var end=Math.min(start+dur,decoded.duration);
-    var sr=decoded.sampleRate;
-    var startSample=Math.floor(start*sr);
-    var endSample=Math.floor(end*sr);
-    var length=endSample-startSample;
-    if(length<=0){log('Durasi audio 0');document.getElementById('btnAudio').disabled=false;return;}
-    var mono=new Float32Array(length);
-    var ch0=decoded.getChannelData(0);
-    for(var i=0;i<length;i++)mono[i]=ch0[startSample+i];
-    var fmt=document.getElementById('audioFormat').value;
-    if(fmt==='wav'){
-      var wav=encodeWAV(mono,sr);
-      audioBlob=new Blob([wav],{type:'audio/wav'});
-      audioExt='wav';
-    } else {
-      var br=parseInt(document.getElementById('audioBitrate').value);
+    var dec=await ac.decodeAudioData(ab.slice(0));
+    log('OK: '+dec.sampleRate+'Hz');
+    var start=parseFloat($('startTime').value);
+    var dur=parseFloat($('duration').value);
+    var end=Math.min(start+dur,dec.duration);
+    var sr=dec.sampleRate;
+    var ss=Math.floor(start*sr),es=Math.floor(end*sr),len=es-ss;
+    if(len<=0){log('Durasi 0');$('btnAudio').disabled=false;return;}
+    var mono=new Float32Array(len);
+    var ch0=dec.getChannelData(0);
+    for(var i=0;i<len;i++)mono[i]=ch0[ss+i];
+    var fmt=$('audioFormat').value;
+    if(fmt==='wav'){audioBlob=new Blob([encodeWAV(mono,sr)],{type:'audio/wav'});audioExt='wav';}
+    else{var br=parseInt($('audioBitrate').value);
       var mp3=await encodeMP3(mono,sr,br);
-      audioBlob=new Blob([mp3],{type:'audio/mpeg'});
-      audioExt='mp3';
-    }
-    audioDuration=length/sr;
-    var url=URL.createObjectURL(audioBlob);
-    document.getElementById('audioPreview').src=url;
-    document.getElementById('audioPreviewWrap').style.display='block';
+      audioBlob=new Blob([mp3],{type:'audio/mpeg'});audioExt='mp3';}
+    audioDuration=len/sr;
+    $('audioPreview').src=URL.createObjectURL(audioBlob);
+    $('audioPreviewWrap').style.display='block';
     updateStats();
     log('✅ Audio: '+audioExt.toUpperCase()+' '+(audioBlob.size/1024).toFixed(0)+' KB');
   }catch(e){log('❌ '+e.message);}
-  document.getElementById('btnAudio').disabled=false;
+  $('btnAudio').disabled=false;
 }
 
-function encodeWAV(samples,sampleRate){
-  var buf=new ArrayBuffer(44+samples.length*2);
-  var view=new DataView(buf);
-  function wr(off,str){for(var i=0;i<str.length;i++)view.setUint8(off+i,str.charCodeAt(i));}
-  wr(0,'RIFF');view.setUint32(4,36+samples.length*2,true);wr(8,'WAVE');
-  wr(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);
-  view.setUint16(22,1,true);view.setUint32(24,sampleRate,true);
-  view.setUint32(28,sampleRate*2,true);view.setUint16(32,2,true);
-  view.setUint16(34,16,true);wr(36,'data');
-  view.setUint32(40,samples.length*2,true);
-  var off=44;
-  for(var i=0;i<samples.length;i++){
-    var s=Math.max(-1,Math.min(1,samples[i]));
-    view.setInt16(off,s<0?s*0x8000:s*0x7FFF,true);off+=2;
-  }
-  return buf;
+function encodeWAV(s,sr){
+  var b=new ArrayBuffer(44+s.length*2),v=new DataView(b);
+  function w(o,st){for(var i=0;i<st.length;i++)v.setUint8(o+i,st.charCodeAt(i));}
+  w(0,'RIFF');v.setUint32(4,36+s.length*2,true);w(8,'WAVE');
+  w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+  w(36,'data');v.setUint32(40,s.length*2,true);
+  var o=44;
+  for(var i=0;i<s.length;i++){var x=Math.max(-1,Math.min(1,s[i]));v.setInt16(o,x<0?x*0x8000:x*0x7FFF,true);o+=2;}
+  return b;
 }
 
-function encodeMP3(samples,sampleRate,kbps){
-  return new Promise(function(resolve,reject){
+function encodeMP3(s,sr,kbps){
+  return new Promise(function(res,rej){
     try{
-      if(typeof lamejs==='undefined'){reject(new Error('lamejs tidak termuat'));return;}
-      var pcm=new Int16Array(samples.length);
-      for(var i=0;i<samples.length;i++){
-        var s=Math.max(-1,Math.min(1,samples[i]));
-        pcm[i]=s<0?s*0x8000:s*0x7FFF;
-      }
-      var encoder=new lamejs.Mp3Encoder(1,sampleRate,kbps);
-      var blockSize=1152;
-      var chunks=[];
-      for(var i=0;i<pcm.length;i+=blockSize){
-        var slice=pcm.subarray(i,i+blockSize);
-        var buf=encoder.encodeBuffer(slice);
+      if(typeof lamejs==='undefined'){rej(new Error('lamejs belum'));return;}
+      var pcm=new Int16Array(s.length);
+      for(var i=0;i<s.length;i++){var x=Math.max(-1,Math.min(1,s[i]));pcm[i]=x<0?x*0x8000:x*0x7FFF;}
+      var enc=new lamejs.Mp3Encoder(1,sr,kbps);
+      var bs=1152,chunks=[];
+      for(var i=0;i<pcm.length;i+=bs){
+        var sl=pcm.subarray(i,i+bs);
+        var buf=enc.encodeBuffer(sl);
         if(buf.length>0)chunks.push(new Uint8Array(buf));
       }
-      var end=encoder.flush();
+      var end=enc.flush();
       if(end.length>0)chunks.push(new Uint8Array(end));
-      var total=0;for(var j=0;j<chunks.length;j++)total+=chunks[j].length;
-      var out=new Uint8Array(total);
-      var off=0;for(var k=0;k<chunks.length;k++){out.set(chunks[k],off);off+=chunks[k].length;}
-      resolve(out.buffer);
-    }catch(e){reject(e);}
+      var tot=0;for(var j=0;j<chunks.length;j++)tot+=chunks[j].length;
+      var out=new Uint8Array(tot),off=0;
+      for(var k=0;k<chunks.length;k++){out.set(chunks[k],off);off+=chunks[k].length;}
+      res(out.buffer);
+    }catch(e){rej(e);}
   });
 }
 
-function previewAudio(){
-  if(!audioBlob){log('Belum ada audio');return;}
-  var a=document.getElementById('audioPreview');
-  a.currentTime=0;a.play();
-}
+function previewAudio(){if(!audioBlob){log('Belum ada audio');return;}
+$('audioPreview').play();log('▶ Preview');}
 
 function downloadAudio(){
   if(!audioBlob){log('Belum ada audio');return;}
-  var name=document.getElementById('audioFileName').value.trim()||'0001';
-  var fname=name+'.'+audioExt;
+  var n=$('audioFileName').value.trim()||'0001';
   var url=URL.createObjectURL(audioBlob);
-  var a=document.createElement('a');
-  a.href=url;a.download=fname;a.click();
-  URL.revokeObjectURL(url);
-  log('💾 Download: '+fname);
+  var a=document.createElement('a');a.href=url;a.download=n+'.'+audioExt;a.click();
+  URL.revokeObjectURL(url);log('💾 '+n+'.'+audioExt);
 }
 
 async function uploadToFirebase(){
   if(!frames.length){log('Belum ada frame');return;}
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
-  var name=document.getElementById('mvName').value.trim().replace(/\s+/g,'_');
-  var fps=parseInt(document.getElementById('fps').value);
-  var chunkSize=30;
-  var totalChunks=Math.ceil(frames.length/chunkSize);
-  var af=document.getElementById('audioFileName').value.trim()||'0001';
-
-  document.getElementById('btnUpload').disabled=true;
+  var db=$('dbUrl').value.replace(/\/+$/,'');
+  var name=$('mvName').value.trim().replace(/\s+/g,'_');
+  var fps=parseInt($('fps').value);
+  var cs=30,tc=Math.ceil(frames.length/cs);
+  var af=$('audioFileName').value.trim()||'0001';
+  $('btnUpload').disabled=true;
   try{
-    var info={
-      nama:name,fps:fps,totalFrame:frames.length,
-      totalChunk:totalChunks,chunkSize:chunkSize,
-      lebar:128,tinggi:64,dibuat:Date.now(),
-      audioFile:af,audioExt:audioBlob?audioExt:'',
-      audioDuration:audioDuration||0,
-      frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
-      durasiFrameMs:Math.round(1000/fps)
-    };
-    var r=await fetch(db+'/mv/'+name+'/info.json',{
-      method:'PUT',body:JSON.stringify(info)
-    });
-    if(!r.ok)throw new Error('info: HTTP '+r.status);
-    log('✓ Info terupload');
-
-    for(var c=0;c<totalChunks;c++){
-      var slice=frames.slice(c*chunkSize,(c+1)*chunkSize);
-      var chunkStr=slice.join('|');
-      var chunkName='chunk'+String(c).padStart(3,'0');
-      r=await fetch(db+'/mv/'+name+'/'+chunkName+'.json',{
-        method:'PUT',body:JSON.stringify(chunkStr)
-      });
-      if(!r.ok)throw new Error(chunkName+': HTTP '+r.status);
-      document.getElementById('prog').value=((c+1)/totalChunks)*100;
-      if(c%5===0||c===totalChunks-1)log('Chunk '+(c+1)+'/'+totalChunks);
+    var info={nama:name,fps:fps,totalFrame:frames.length,totalChunk:tc,chunkSize:cs,
+      lebar:128,tinggi:64,dibuat:Date.now(),audioFile:af,audioExt:audioBlob?audioExt:'',
+      audioDuration:audioDuration||0,frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
+      durasiFrameMs:Math.round(1000/fps)};
+    var r=await fetch(db+'/mv/'+name+'/info.json',{method:'PUT',body:JSON.stringify(info)});
+    if(!r.ok)throw new Error('info HTTP '+r.status);
+    log('✓ Info');
+    for(var c=0;c<tc;c++){
+      var sl=frames.slice(c*cs,(c+1)*cs);
+      var cn='chunk'+String(c).padStart(3,'0');
+      r=await fetch(db+'/mv/'+name+'/'+cn+'.json',{method:'PUT',body:JSON.stringify(sl.join('|'))});
+      if(!r.ok)throw new Error(cn+' HTTP '+r.status);
+      $('prog').value=((c+1)/tc)*100;
+      if(c%5===0||c===tc-1)log('Chunk '+(c+1)+'/'+tc);
     }
-    log('✅ Upload selesai: '+name);
-    log('⚠ Pindah '+af+'.'+audioExt+' ke SD card DFPlayer');
-    thumbnailCache={};chunkCache={};
+    log('✅ Upload: '+name);
     loadMvList(true);
   }catch(e){log('❌ '+e.message);}
-  document.getElementById('btnUpload').disabled=false;
+  $('btnUpload').disabled=false;
 }
 
 function downloadJSON(){
   if(!frames.length){log('Belum ada frame');return;}
-  var name=document.getElementById('mvName').value.trim().replace(/\s+/g,'_');
-  var fps=parseInt(document.getElementById('fps').value);
-  var chunkSize=30;
-  var totalChunks=Math.ceil(frames.length/chunkSize);
-  var af=document.getElementById('audioFileName').value.trim()||'0001';
-  var obj={
-    info:{nama:name,fps:fps,totalFrame:frames.length,
-          totalChunk:totalChunks,chunkSize:chunkSize,
-          lebar:128,tinggi:64,dibuat:Date.now(),
-          audioFile:af,audioExt:audioBlob?audioExt:'',
-          audioDuration:audioDuration||0,
-          frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
-          durasiFrameMs:Math.round(1000/fps)}
-  };
-  for(var c=0;c<totalChunks;c++){
-    var chunkName='chunk'+String(c).padStart(3,'0');
-    obj[chunkName]=frames.slice(c*chunkSize,(c+1)*chunkSize).join('|');
-  }
-  var blob=new Blob([JSON.stringify(obj)],{type:'application/json'});
+  var name=$('mvName').value.trim().replace(/\s+/g,'_');
+  var fps=parseInt($('fps').value),cs=30,tc=Math.ceil(frames.length/cs);
+  var af=$('audioFileName').value.trim()||'0001';
+  var o={info:{nama:name,fps:fps,totalFrame:frames.length,totalChunk:tc,chunkSize:cs,
+    lebar:128,tinggi:64,dibuat:Date.now(),audioFile:af,audioExt:audioBlob?audioExt:'',
+    audioDuration:audioDuration||0,frameStartMs:0,audioStartMs:0,syncOffsetMs:0,
+    durasiFrameMs:Math.round(1000/fps)}};
+  for(var c=0;c<tc;c++)o['chunk'+String(c).padStart(3,'0')]=frames.slice(c*cs,(c+1)*cs).join('|');
+  var blob=new Blob([JSON.stringify(o)],{type:'application/json'});
   var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download=name+'.json';a.click();
-  URL.revokeObjectURL(url);
+  var a=document.createElement('a');a.href=url;a.download=name+'.json';a.click();
+  URL.revokeObjectURL(url);log('💾 JSON');
 }
 
-// ==================== MODE & PESAN ====================
-async function setMode(mode){
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+// ============ MODE & PESAN ============
+async function setIdle(mode){
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
-    if(mode==='mv'){
-      // Aktifkan MV yang terakhir dipilih
-      var nama=lastAktif||'mv1';
-      await fetch(db+'/kontrol/aktif.json',{method:'PUT',body:JSON.stringify(nama)});
-      log('🎬 Mode MV: '+nama);
-    } else {
-      await fetch(db+'/kontrol/mode.json',{method:'PUT',body:JSON.stringify(mode)});
-      log('✨ Mode: '+mode);
-    }
-    currentMode=mode;
-    updateModeButtons();
+    await fetch(db+'/kontrol/idle.json',{method:'PUT',body:JSON.stringify(mode)});
+    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify('idle')});
+    log('✨ Idle: '+mode);
+    lastTampil='idle';lastIdle=mode;updateModeBtns();
   }catch(e){log('❌ '+e.message);}
 }
 
-function updateModeButtons(){
-  var ids=['idle0','idle1','idle2','idle3','menu','mv'];
-  for(var i=0;i<ids.length;i++){
-    var el=document.getElementById('mode_'+ids[i]);
-    if(el){
-      if(ids[i]===currentMode)el.classList.add('on');
-      else el.classList.remove('on');
+async function setTampil(mode){
+  var db=$('dbUrl').value.replace(/\/+$/,'');
+  try{
+    if(mode==='mv' && lastAktif.length===0){
+      log('Pilih MV dulu (tap ▶ di daftar MV)');
+      return;
     }
+    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify(mode)});
+    log('🎬 Mode: '+mode);
+    lastTampil=mode;updateModeBtns();
+  }catch(e){log('❌ '+e.message);}
+}
+
+function updateModeBtns(){
+  ['mi0','mi1','mi2','mi3','mim','mmv'].forEach(function(id){$(id).classList.remove('on');});
+  if(lastTampil==='mv'){$('mmv').classList.add('on');}
+  else if(lastTampil==='idle'){
+    var map={'idle0':'mi0','idle1':'mi1','idle2':'mi2','idle3':'mi3','menu':'mim'};
+    if(map[lastIdle])$(map[lastIdle]).classList.add('on');
   }
+  $('modeInfo').textContent=(lastTampil==='mv'?'MV: '+lastAktif:'Idle: '+lastIdle);
 }
 
 async function kirimPesan(){
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
-  var teks=document.getElementById('pesanInput').value.trim();
+  var db=$('dbUrl').value.replace(/\/+$/,'');
+  var teks=$('pesanInput').value.trim();
   if(!teks){log('Pesan kosong');return;}
   try{
     await fetch(db+'/kontrol/pesan.json',{method:'PUT',body:JSON.stringify(teks)});
-    document.getElementById('pesanAktif').textContent=teks;
-    log('📨 Pesan terkirim: '+teks);
+    $('pesanAktif').textContent=teks;
+    log('📨 Pesan: '+teks);
   }catch(e){log('❌ '+e.message);}
 }
 
 async function hapusPesan(){
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
     await fetch(db+'/kontrol/pesan.json',{method:'PUT',body:'""'});
-    document.getElementById('pesanAktif').textContent='-';
+    $('pesanAktif').textContent='-';
     log('🗑 Pesan dihapus');
   }catch(e){log('❌ '+e.message);}
 }
 
-function quickPesan(teks){
-  document.getElementById('pesanInput').value=teks;
-  kirimPesan();
-}
+function quickPesan(t){$('pesanInput').value=t;kirimPesan();}
 
-// ==================== MV LIST ====================
-async function loadMvList(forceRefresh){
-  var el=document.getElementById('mvList');
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
-  if(forceRefresh)el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div>';
+// ============ MV LIST ============
+async function loadMvList(force){
+  var el=$('mvList');
+  var db=$('dbUrl').value.replace(/\/+$/,'');
+  if(force)el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Memuat...</div>';
   try{
     var r=await fetch(db+'/mv.json');
     if(!r.ok)throw new Error('HTTP '+r.status);
     var data=await r.json();
-    if(!data){
-      el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Belum ada MV tersimpan.</div>';
-      return;
-    }
-    var aktif=lastAktif;
+    if(!data){el.innerHTML='<div style="opacity:.6;font-size:12px;text-align:center;padding:12px">Belum ada MV.</div>';return;}
     var keys=Object.keys(data);
     var html='';
     for(var i=0;i<keys.length;i++){
-      var k=keys[i];
-      var info=(data[k]&&data[k].info)||{};
-      var nama=info.nama||k;
-      var total=info.totalFrame||0;
-      var fps=info.fps||10;
-      var dur=total>0?(total/fps).toFixed(1):'0';
-      var audio=info.audioExt?('🔊 '+info.audioFile+'.'+info.audioExt):'🔇 tanpa audio';
-      var isAktif=(k===aktif);
-      var thumbId='thumb_'+k.replace(/[^a-zA-Z0-9]/g,'_');
-      html+='<div class="mv-item'+(isAktif?' active':'')+'">';
-      html+='<canvas class="mv-thumb" id="'+thumbId+'" width="128" height="64" data-mv="'+k+'" data-total="'+total+'" data-fps="'+fps+'"></canvas>';
+      var k=keys[i],info=(data[k]&&data[k].info)||{};
+      var nm=info.nama||k,tot=info.totalFrame||0,fps=info.fps||10;
+      var dur=tot>0?(tot/fps).toFixed(1):'0';
+      var au=info.audioExt?('🔊 '+info.audioFile+'.'+info.audioExt):'🔇 tanpa audio';
+      var act=(k===lastAktif && lastTampil==='mv');
+      var tid='th_'+k.replace(/[^a-zA-Z0-9]/g,'_');
+      html+='<div class="mv-item'+(act?' active':'')+'">';
+      html+='<canvas class="mv-thumb" id="'+tid+'" width="128" height="64"></canvas>';
       html+='<div class="mv-info">';
-      html+='<div class="nama">'+nama+(isAktif?'<span class="badge">AKTIF</span>':'')+'</div>';
-      html+='<div class="meta">'+total+' frame · '+fps+' fps · '+dur+'s</div>';
-      html+='<div class="meta">'+audio+'</div>';
-      html+='</div>';
+      html+='<div class="nama">'+nm+(act?'<span class="badge">AKTIF</span>':'')+'</div>';
+      html+='<div class="meta">'+tot+' frame · '+fps+' fps · '+dur+'s</div>';
+      html+='<div class="meta">'+au+'</div></div>';
       html+='<div class="mv-actions">';
-      if(!isAktif){
-        html+='<button onclick="putarMV(\''+k+'\')">▶ Putar</button>';
-      } else {
-        html+='<button disabled>▶ Jalan</button>';
-      }
+      html+='<button onclick="putarMV(\''+k+'\')">▶ Putar</button>';
       html+='<button onclick="hapusMV(\''+k+'\')" style="background:linear-gradient(135deg,#b23b3b,#e05555)">🗑</button>';
       html+='</div></div>';
     }
     el.innerHTML=html;
-    startThumbAnimations();
+    for(var j=0;j<keys.length;j++)loadThumb(keys[j],'th_'+keys[j].replace(/[^a-zA-Z0-9]/g,'_'));
   }catch(e){
     el.innerHTML='<div style="color:#ffb3b3;font-size:12px;text-align:center;padding:12px">Error: '+e.message+'</div>';
   }
 }
 
-async function preloadMvChunks(nama){
-  if(chunkCache[nama])return chunkCache[nama];
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+async function loadThumb(nama,cid){
+  if(chunkCache[nama]){
+    var c0=$(cid);
+    if(c0)renderPacked(chunkCache[nama],c0);
+    return;
+  }
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
     var r=await fetch(db+'/mv/'+nama+'/chunk000.json');
-    if(!r.ok)return null;
+    if(!r.ok)return;
     var txt=await r.text();
-    var payload=JSON.parse(txt);
-    if(!payload)return null;
-    chunkCache[nama]=payload;
-    return payload;
-  }catch(e){return null;}
+    var p=JSON.parse(txt);
+    if(!p||typeof p!=='string')return;
+    var pipe=p.indexOf('|');
+    var b64=(pipe>0?p.substring(0,pipe):p).replace(/"/g,'').trim();
+    var bin=atob(b64);
+    var bytes=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    if(bytes.length!==1024)return;
+    chunkCache[nama]=bytes;
+    var c=$(cid);if(c)renderPacked(bytes,c);
+  }catch(e){}
 }
 
-async function startThumbAnimations(){
-  if(thumbAnimTimer)clearInterval(thumbAnimTimer);
-  var canvases=document.querySelectorAll('.mv-thumb');
-  for(var i=0;i<canvases.length;i++){
-    preloadMvChunks(canvases[i].getAttribute('data-mv'));
-  }
-  thumbAnimFrame=0;
-  thumbAnimTimer=setInterval(function(){
-    var canvases=document.querySelectorAll('.mv-thumb');
-    for(var i=0;i<canvases.length;i++){
-      var c=canvases[i];
-      var nama=c.getAttribute('data-mv');
-      var payload=chunkCache[nama];
-      if(!payload)continue;
-      var fps=parseInt(c.getAttribute('data-fps'))||10;
-      var framesInChunk=payload.split('|');
-      // Frame yang ditampilkan bergerak 10 fps dalam real-time, tapi dipercepat 3x biar kelihatan
-      var idx=(thumbAnimFrame*3)%Math.min(framesInChunk.length,30);
-      var b64=framesInChunk[idx].replace(/"/g,'').trim();
-      try{
-        var bytes=base64ToBytes(b64);
-        if(bytes.length===1024)renderPackedToCanvas(bytes,c);
-      }catch(e){}
+function renderPacked(bytes,canvas){
+  var ctx=canvas.getContext('2d'),img=ctx.createImageData(128,64);
+  for(var p=0;p<8;p++)for(var x=0;x<128;x++){
+    var b=bytes[p*128+x];
+    for(var bit=0;bit<8;bit++){
+      var y=p*8+bit,on=(b>>bit)&1,i=(y*128+x)*4,v=on?255:0;
+      img.data[i]=v;img.data[i+1]=v;img.data[i+2]=v;img.data[i+3]=255;
     }
-    thumbAnimFrame++;
-    if(thumbAnimFrame>1000)thumbAnimFrame=0;
-  },150);
+  }
+  ctx.putImageData(img,0,0);
 }
 
 async function putarMV(nama){
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
     await fetch(db+'/kontrol/aktif.json',{method:'PUT',body:JSON.stringify(nama)});
-    await fetch(db+'/kontrol/ulang.json',{method:'PUT',body:'true'});
-    log('▶ Putar MV: '+nama);
-    lastAktif=nama;
-    loadMvList(false);
-    currentMode='mv';
-    updateModeButtons();
+    await fetch(db+'/kontrol/tampil.json',{method:'PUT',body:JSON.stringify('mv')});
+    log('▶ Putar: '+nama);
+    lastAktif=nama;lastTampil='mv';
+    loadMvList(false);updateModeBtns();
   }catch(e){log('❌ '+e.message);}
 }
 
 async function hapusMV(nama){
   if(!confirm('Hapus MV "'+nama+'"?'))return;
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
     await fetch(db+'/mv/'+nama+'.json',{method:'DELETE'});
-    log('🗑 MV dihapus: '+nama);
-    delete thumbnailCache[nama];
-    delete chunkCache[nama];
-    loadMvList(true);
+    log('🗑 '+nama);
+    delete chunkCache[nama];loadMvList(true);
   }catch(e){log('❌ '+e.message);}
 }
 
-// ==================== REALTIME ====================
+// ============ REALTIME ============
 async function pollRealtime(){
   if(!realtimeOn)return;
-  var db=document.getElementById('dbUrl').value.replace(/\/+$/,'');
+  var db=$('dbUrl').value.replace(/\/+$/,'');
   try{
     var r=await fetch(db+'/kontrol.json');
     if(!r.ok)throw new Error('HTTP '+r.status);
     var data=await r.json()||{};
+    var tampil=data.tampil||'';
+    var idle=data.idle||'idle0';
     var aktif=data.aktif||'';
-    var mode=data.mode||'';
     var pesan=data.pesan||'';
-    document.getElementById('rtTime').textContent=new Date().toLocaleTimeString();
-    document.getElementById('rtDot').classList.remove('off');
-    var statusText='';
-    if(mode&&mode!=='mv')statusText='Mode: '+mode;
-    else if(aktif)statusText='MV aktif: '+aktif;
-    else statusText='Siap';
-    document.getElementById('rtStatus').textContent=statusText;
-    document.getElementById('pesanAktif').textContent=pesan||'-';
-    if(aktif!==lastAktif){
-      lastAktif=aktif;
-      loadMvList(false);
-    }
-    if(mode!==currentMode){
-      currentMode=mode||(aktif?'mv':'');
-      updateModeButtons();
-    }
+    $('rtTime').textContent=new Date().toLocaleTimeString();
+    $('rtDot').classList.remove('off');
+    var st='';
+    if(tampil==='mv')st='🎬 '+aktif;
+    else if(tampil==='idle')st='😴 '+idle;
+    else st='—';
+    $('rtStatus').textContent=st;
+    $('pesanAktif').textContent=pesan||'-';
+
+    var changed=false;
+    if(aktif!==lastAktif){lastAktif=aktif;changed=true;}
+    if(tampil!==lastTampil){lastTampil=tampil;changed=true;}
+    if(idle!==lastIdle){lastIdle=idle;changed=true;}
+    if(changed){loadMvList(false);updateModeBtns();}
   }catch(e){
-    document.getElementById('rtDot').classList.add('off');
-    document.getElementById('rtStatus').textContent='Tidak terhubung';
+    $('rtDot').classList.add('off');
+    $('rtStatus').textContent='Tidak terhubung';
   }
 }
 
 function toggleRealtime(){
   realtimeOn=!realtimeOn;
-  document.getElementById('btnRt').textContent=realtimeOn?'⏸ Pause Realtime':'▶ Resume Realtime';
-  document.getElementById('rtDot').classList.toggle('off',!realtimeOn);
+  $('btnRt').textContent=realtimeOn?'⏸ Pause':'▶ Resume';
+  $('rtDot').classList.toggle('off',!realtimeOn);
   if(realtimeOn)pollRealtime();
-  log(realtimeOn?'Realtime aktif':'Realtime dijeda');
+  log(realtimeOn?'Realtime ON':'Realtime OFF');
 }
 
-// ==================== INIT ====================
-log('Siap. Pilih video dulu.');
+log('Siap. Pilih video.');
 loadMvList(true);
 setInterval(pollRealtime,2000);
 pollRealtime();
